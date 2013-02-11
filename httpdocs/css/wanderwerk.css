@@ -1,0 +1,283 @@
+#body{
+    font-family: "tahoma", "arial", "verdana", sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+#body .info-panel p{
+    text-align: center;
+    padding:5px;
+}
+
+#body .x-panel-body{
+    border:none;
+}
+
+#body .x-panel-body .x-panel-body , #body .x-panel-header, #body .x-layout-split,
+#body .x-tab-panel-body , #body .x-tab-panel-header{
+    border:solid #222222;
+    border-width: 2px 0 2px;
+    background-image: url("../images/wanderwerk/background.png");
+    color: white;
+    border-top:solid #666666 1px;
+}
+
+#body .x-grid3-viewport, #body .x-tab-strip-top{
+    border:none;
+    background-image: url("../images/wanderwerk/background.png");
+}
+
+#body .toolbar table{
+    padding:5px 5px 0 0;
+    float: left;
+}
+
+#body .toolbar button{
+    height: 35px;
+    width: 35px;
+    background-repeat: no-repeat;
+    margin-top:-2px;
+}
+
+#body .toolbar .x-btn-tl, #body .toolbar .x-btn-tr, #body .toolbar .x-btn-tc,
+#body .toolbar .x-btn-ml, #body .toolbar .x-btn-mr, #body .toolbar .x-btn-mc,
+#body .toolbar .x-btn-bl, #body .toolbar .x-btn-br, #body .toolbar .x-btn-bc{
+    background: none;
+} 
+
+#body .toolbar button{
+    border:solid #222222;
+    border-width: 2px 2px 2px;
+    border-top: solid #666666 1px;
+    border-radius: 5px;
+}
+
+#body .toolbar .selected button{
+    box-shadow: inset 0px 2px 5px 0px black;
+    border-top:solid #222222 2px;
+    border-bottom:solid #666666 1px;
+}
+
+#body .toolbar .addLine button{
+    background-image: url("../images/wanderwerk/addLine.png");
+}
+
+#body .toolbar .addLine button:hover, #body .toolbar .addLine.selected button:hover{
+    background-image: url("../images/wanderwerk/addLineHover.png");
+}
+
+#body .toolbar .addLine.selected button{
+    background-image: url("../images/wanderwerk/addLineSelected.png");
+}
+
+#body .toolbar .updateLine button{
+    background-image: url("../images/wanderwerk/updateLine.png");
+}
+
+#body .toolbar .updateLine button:hover, #body .toolbar .updateLine.selected button:hover{
+    background-image: url("../images/wanderwerk/updateLineHover.png");
+}
+
+#body .toolbar .updateLine.selected button{
+    background-image: url("../images/wanderwerk/updateLineSelected.png");
+}
+
+#body .toolbar .addPoint button{
+    background-image: url("../images/wanderwerk/addPoint.png");
+}
+
+#body .toolbar .addPoint button:hover, #body .toolbar .addPoint.selected button:hover{
+    background-image: url("../images/wanderwerk/addPointHover.png");
+}
+
+#body .toolbar .addPoint.selected button{
+    background-image: url("../images/wanderwerk/addPointSelected.png");
+}
+
+#body .toolbar .updatePoint button{
+    background-image: url("../images/wanderwerk/updatePoint.png");
+}
+
+#body .toolbar .updatePoint button:hover, #body .toolbar .updatePoint.selected button:hover{
+    background-image: url("../images/wanderwerk/updatePointHover.png");
+}
+
+#body .toolbar .updatePoint.selected button{
+    background-image: url("../images/wanderwerk/updatePointSelected.png");
+}
+
+#body .toolbar .calculate button{
+    background-image: url("../images/wanderwerk/calculate.png");
+}
+
+#body .toolbar .calculate button:hover, #body .toolbar .calculate button:hover{
+    background-image: url("../images/wanderwerk/calculateHover.png");
+}
+
+#body .toolbar .displayChart button{
+    background-image: url("../images/wanderwerk/chart.png");
+}
+
+#body .toolbar .displayChart button:hover, #body .toolbar .displayChart button:hover{
+    background-image: url("../images/wanderwerk/chartHover.png");
+}
+
+#body .toolbar .erase button{
+    background-image: url("../images/wanderwerk/trash.png");
+}
+
+#body .toolbar .erase button:hover, #body .toolbar .erase button:hover{
+    background-image: url("../images/wanderwerk/trashHover.png");
+}
+
+#body .lineSelector{
+    margin-top: 12px;
+}
+
+#body .lineSelector p{
+    display:inline-block;
+    margin-left:10px;
+}
+
+#body #chartcontainer{
+    background-color:white;
+}
+
+#body .info-panel p{
+    text-align: center;
+    padding:5px;
+}
+
+#body .properties{
+    clear:both;
+}
+
+#body .properties div{
+    margin-top:3px;
+}
+
+#body .properties p{
+    float:left;
+}
+
+#body .properties .label{
+    padding: 5px 5px 0 0;
+}
+
+#body .properties .left{
+    float:left;
+}
+
+#body .properties .right{
+    float:right;
+}
+
+#body .x-tab-strip *, #body .x-tab-strip-active *{
+    background-image: url("../images/wanderwerk/background.png");
+    background-color: transparent;
+}
+
+#body .x-tab-strip li{
+    border:none;
+    border:solid #222222;
+    border-top-color:#666666;
+    border-width: 1px 2px 2px;
+    border-radius: 15px;
+    padding-bottom: 1px;
+    margin-right: 10px;
+}
+
+#body .x-tab-strip .x-tab-strip-active{
+    border:none;
+    border:solid #222222;
+    border-bottom-color:#666666;
+    border-width: 2px 2px 1px;
+}
+
+#body .x-tab-strip .x-tab-strip-text{
+    /*box-shadow: inset 0px 2px 5px 0px black;*/
+}
+
+#body .x-tab-strip-active .x-tab-strip-text{
+    /*box-shadow: inset 0px 2px 5px 0px black;*/
+    color: #00FF00;
+    font-weight: normal;
+}
+
+#body .x-tab-strip .x-tab-strip-text:hover{
+    color:#00FF00 !important;
+    text-shadow: 0px 0px 10px rgba(0, 255, 255, 0.6);
+    cursor:pointer
+}
+
+#body .x-layout-split{
+    height:3px;
+    border:none;
+    border:solid #222222;
+    border-width: 1px 0 2px;
+}
+
+#body .map-panel .x-panel-body{
+    background-color:transparent;
+    background-image: none;
+}
+
+#body .x-grid3-header{
+    background-image: url("../images/wanderwerk/background.png");
+    border:solid #222222;
+    border-width: 0 0 2px 0; 
+}
+
+#body .x-grid3-hd-row td{
+    font-weight: bold;
+}
+
+#body .x-grid3-hd-row td, #body .x-grid3-hd-row td div:hover{
+    background-image: url("../images/wanderwerk/background.png");
+    border:solid #222222;
+    border-width: 0 2px 0 0;
+    padding-right: 2px;
+}
+
+#body .x-grid3-hd-row td div:hover{
+    color: #00FF00;
+    text-shadow: 0px 0px 10px rgba(0, 255, 255, 0.6);
+}
+
+#body .x-grid3-hd-row{
+    border:none;
+    border:solid #222222;
+    border-width: 0 0 2px 0; 
+    background-color:transparent !important; /*hack to counter hack of ExtJS*/
+}
+
+#body .x-grid3-row:hover{
+    border:none;
+    color: #00FF00;
+    text-shadow: 0px 0px 10px rgba(0, 255, 255, 0.6);
+    background-color:transparent !important; /*hack to counter hack of ExtJS*/
+}
+
+#body .x-grid3-row-selected{
+    border:none;
+    background-color:transparent !important; /*hack to counter hack of ExtJS*/
+}
+
+#body .x-grid3-hd-row td div{
+    background-image: url("../images/wanderwerk/background.png");
+}
+
+#body .x-grid3-header-inner{
+    padding:0;
+}
+
+#body .x-grid3-row{
+    border:none;
+}
+
+#body .x-grid3-row-table td{
+    border:solid #222222;
+    border-width: 0 2px 2px 0;
+    border-top:solid #666666;
+    border-top-width: 1px;
+}
