@@ -1,4 +1,4 @@
-?Wanderwerk (to V1)
+Wanderwerk (to V1)
 =======================
   The Wanderwerk project is a  online mapping application developed for Scouts to calculate the profile of their hikes.
 Nevertheless, it can be quite usefulany walker, jogger, cyclist etc.
