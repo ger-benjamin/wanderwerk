@@ -391,7 +391,7 @@ function setLinesSelector (reset) {
     var i, value = 'default',
             linesSelector = Ext.DomQuery.selectNode('.toolbar .lineSelector select');
     while (linesSelector.length > 0) {
-        linesSelector.remove();
+        linesSelector.removeChild(linesSelector[0]);
     }
     if (reset) {
         this.addLinesSelectorOption(value, 'Créez un tracé d\'abord.', '#000000');
@@ -415,7 +415,7 @@ function setLinesSelector (reset) {
  * If first tab isn't selected, use white color.
  */
 function setFirstTabTitle () {
-    var value = 'Tracé sélectionné', color = 'FFFFFF';
+    var value = 'Tracé sélectionné', color = '#FFFFFF';
     if (this.tabPanel.items.items[0] === this.tabPanel.activeTab) {
         if (this.currentProfile) {
             color = this.currentProfile.color;
