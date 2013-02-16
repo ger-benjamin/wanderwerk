@@ -32,7 +32,7 @@ function makePanels () {
 function makeHeader () {
     var tempHTML = '<div class="lineSelector">\n\
                 <p><label for="lineSelector">Tracé : </label></p>\n\
-                <p><select id="lineSelector" type="text" name="lineSelector"></select></p>\n\
+                <p><select id="lineSelector" style="background-color:#000000" type="text" name="lineSelector"></select></p>\n\
             </div>'; //@fixme because EXTJS is too bad to create node easily :-(
     return new Ext.Panel({
         region: 'north',
@@ -299,11 +299,11 @@ function makeCompareGridPanel () {
             }, {
                 name: 'tmp'
             }, {
-                name: 'tmpWithPauses',
+                name: 'tmpWithPauses'
             }]
     });
     //Calcul width manually because ExtJS seem not offert this feature.
-    width = Math.floor(document.body.offsetWidth / this.compareDs.fields.length);
+    width = Math.floor(document.body.offsetWidth / (this.compareDs.fields.length -2));
     //Create the colum Manager
     colModel = new Ext.grid.ColumnModel({
         defaults: {
@@ -328,19 +328,19 @@ function makeCompareGridPanel () {
             }, {
                 header: 'Descente totale [m]',
                 dataIndex: 'sumDescend'
-            }, {
+            },{
                 header: 'Montée totale [m]',
                 dataIndex: 'sumAscend'
-            }, {
+            }, /* {
                 header: 'Nombre de pauses',
                 dataIndex: 'pauses'
-            }, {
-                header: 'Temps sans pause [h:m]',
+            }, */ {
+                header: 'Temps [h:m]',
                 dataIndex: 'tmp'
-            }, {
+            }/*, {
                 header: 'Temps avec pauses [h:m]',
                 dataIndex: 'tmpWithPauses'
-            }
+            }*/
         ]});
 
     //Create the GridPanel with the previously created column model.

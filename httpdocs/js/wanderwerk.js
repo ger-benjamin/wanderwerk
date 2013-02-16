@@ -394,13 +394,17 @@ function setLinesSelector (reset) {
         linesSelector.remove();
     }
     if (reset) {
-        this.addLinesSelectorOption(value, 'Créez un tracé d\'abord.');
+        this.addLinesSelectorOption(value, 'Créez un tracé d\'abord.', '#000000');
+        Ext.DomQuery.selectNode('.toolbar .lineSelector select').setAttribute('style', 'color:#000000');
     } else {
         for (i = 0; i < this.profiles.length; i++) {
             if (this.profiles[i] === this.currentProfile) {
                 value = i;
+                if (this.currentProfile.color) {
+                    Ext.DomQuery.selectNode('.toolbar .lineSelector select').setAttribute('style', 'background-color:#DDDDDD; color:#' + this.currentProfile.color);
+                }
             }
-            this.addLinesSelectorOption(i, 'Tracé ' + (i + 1));
+            this.addLinesSelectorOption(i, 'Tracé ' + (i + 1), ('#' + this.profiles[i].color || '#000000'));
         }
     }
     Ext.select('.lineSelector select').elements[0].value = value;
@@ -427,13 +431,18 @@ function setFirstTabTitle () {
 
 /**
  * Add options in line selected with given value and text.
- * @param {number or String} value
+ * can set style color.
+ * @param {number}/{String} value
  * @param {String} text
+ * @param {String} color
  */
-function addLinesSelectorOption (value, text) {
+function addLinesSelectorOption (value, text, color) {
     var linesSelector = Ext.DomQuery.selectNode('.toolbar .lineSelector select'),
             node = document.createElement('option');
     node.setAttribute('value', value);
+    if (typeof color === 'string') {
+        node.setAttribute('style', 'background-color:#DDDDDD; color:' + color);
+    }
     node.appendChild(document.createTextNode(text));
     linesSelector.add(node);
 }
@@ -481,7 +490,7 @@ function onPointAdded (e) {
  * @param {OpenLayers.Feature.Vector} point
  */
 function addPoint (point) {
-    if (!point){
+    if (!point) {
         return;
     }
     this.displayWaitMessage(true);

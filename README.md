@@ -18,6 +18,10 @@ Project results delivered "as is" (1 week of work for two people) visible at thi
   Actual version (Soon version 1) proposed by Benjamin Gerber
 Try it on local. On server in a few weeks.
 
+Licence
+------------------------
+Open source, following the licence "Creative Commons BY-NC".
+
 Current author
 ------------------------
 *	Benjamin Gerber ger-benjamin@gmail.com  
