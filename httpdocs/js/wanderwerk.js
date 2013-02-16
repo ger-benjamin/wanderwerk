@@ -1,4 +1,4 @@
-/**
+ï»¿/**
  * API created by Benjamin Gerber
  * Open source, following the licence "Creative Commons BY-NC"
  * Based on OpenLayers 2.12, GeoExt 1.1, HighCharts 2.3.5, Geonames, GeoAdmin API and
@@ -67,7 +67,7 @@ function addLineControls () {
     }, this);
     //Add update control in a button and on the map 
     this.map.addControl(this.controls.updateLine);
-    this.buttons.updateLine = this.createButton('Modifier les tracés', 'updateLine', this.toggleControl, 'updateLine');
+    this.buttons.updateLine = this.createButton('Modifier les tracÃ©s', 'updateLine', this.toggleControl, 'updateLine');
 }
 
 /**
@@ -124,7 +124,7 @@ function addDrawOption () {
     //Create the "draw line" feature's control and add it to the map and to a button.
     this.controls.addLine = new OpenLayers.Control.DrawFeature(this.layers.lines, OpenLayers.Handler.Path);
     this.map.addControl(this.controls.addLine);
-    this.buttons.addLine = this.createButton('Ajouter des tracés', 'addLine', this.toggleControl, 'addLine');
+    this.buttons.addLine = this.createButton('Ajouter des tracÃ©s', 'addLine', this.toggleControl, 'addLine');
 }
 
 /**
@@ -192,7 +192,7 @@ function createButton (tooltip, cls, fn) {
  * Button erase wich delete all created features.   
  */
 function addButtonsControl () {
-    this.buttons.calculate = this.createButton('Générer le profil', 'calculate', this.calculate);
+    this.buttons.calculate = this.createButton('GÃ©nÃ©rer le profil', 'calculate', this.calculate);
     this.buttons.displayChart = this.createButton('Afficher le graphique', 'displayChart', this.toggleChartVisibility);
     this.buttons.erase = this.createButton('Tout effacer', 'erase', this.eraseAll);
 
@@ -271,7 +271,7 @@ function displayWaitMessage (display) {
  */
 function eraseAll () {
     var i;
-    Ext.MessageBox.confirm('Tout effacer ?', 'Le tracé ainsi que les points de passage seront définitvement perdus. Êtes-vous sur de vouloir tout effacer ?', function (btn) {
+    Ext.MessageBox.confirm('Tout effacer ?', 'Le tracÃ© ainsi que les points de passage seront dÃ©finitvement perdus. ÃŠtes-vous sur de vouloir tout effacer ?', function (btn) {
         if (btn === 'yes') {
             for (i = 0; i < this.profiles.length; i++) {
                 this.profiles[i].destroy();
@@ -293,7 +293,7 @@ function eraseAll () {
  * @param {OpenLayers.Feature.Vector} e
  */
 function onLineAdded (e) {
-    var profile = new Profile(e.feature, this.generateColor(this.profiles.length + 1), 'Tracé ' + (this.profiles.length + 1));
+    var profile = new Profile(e.feature, this.generateColor(this.profiles.length + 1), 'TracÃ© ' + (this.profiles.length + 1));
     this.profiles.push(profile);
     this.setSelectedLine(profile);
     this.layers.lines.redraw();
@@ -394,7 +394,7 @@ function setLinesSelector (reset) {
         linesSelector.removeChild(linesSelector[0]);
     }
     if (reset) {
-        this.addLinesSelectorOption(value, 'Créez un tracé d\'abord.', '#000000');
+        this.addLinesSelectorOption(value, 'CrÃ©ez un tracÃ© d\'abord.', '#000000');
         Ext.DomQuery.selectNode('.toolbar .lineSelector select').setAttribute('style', 'color:#000000');
     } else {
         for (i = 0; i < this.profiles.length; i++) {
@@ -404,7 +404,7 @@ function setLinesSelector (reset) {
                     Ext.DomQuery.selectNode('.toolbar .lineSelector select').setAttribute('style', 'background-color:#DDDDDD; color:' + this.currentProfile.color);
                 }
             }
-            this.addLinesSelectorOption(i, 'Tracé ' + (i + 1), (this.profiles[i].color || '#000000'));
+            this.addLinesSelectorOption(i, 'TracÃ© ' + (i + 1), (this.profiles[i].color || '#000000'));
         }
     }
     Ext.select('.lineSelector select').elements[0].value = value;
@@ -415,7 +415,7 @@ function setLinesSelector (reset) {
  * If first tab isn't selected, use white color.
  */
 function setFirstTabTitle () {
-    var value = 'Tracé sélectionné', color = '#FFFFFF';
+    var value = 'TracÃ© sÃ©lectionnÃ©', color = '#FFFFFF';
     if (this.tabPanel.items.items[0] === this.tabPanel.activeTab) {
         if (this.currentProfile) {
             color = this.currentProfile.color;
@@ -475,7 +475,7 @@ function onPointAdded (e) {
     var point = e.feature;
     if (!this.currentProfile || !this.currentProfile.line) {
         point.destroy();
-        Ext.MessageBox.alert('Le tracé en premier', "Vous devez d'abord créer un nouveau tracé, utilisez le première outils pour cela.");
+        Ext.MessageBox.alert('Le tracÃ© en premier', "Vous devez d'abord crÃ©er un nouveau tracÃ©, utilisez le premiÃ¨re outils pour cela.");
         return;
     }
     this.displayWaitMessage(true);

@@ -1,4 +1,4 @@
-/**
+ï»¿/**
  * API created by Benjamin Gerber
  * Open source, following the licence "Creative Commons BY-NC"
  * Based on OpenLayers 2.12, GeoExt 1.1, HighCharts 2.3.5, Geonames, GeoAdmin API and
@@ -31,7 +31,7 @@ function makePanels () {
  */
 function makeHeader () {
     var tempHTML = '<div class="lineSelector">\n\
-                <p><label for="lineSelector">Tracé : </label></p>\n\
+                <p><label for="lineSelector">TracÃ© : </label></p>\n\
                 <p><select id="lineSelector" style="background-color:#000000" type="text" name="lineSelector"></select></p>\n\
             </div>'; //@fixme because EXTJS is too bad to create node easily :-(
     return new Ext.Panel({
@@ -42,7 +42,7 @@ function makeHeader () {
             new Ext.Panel({
                 region: 'north',
                 height: 25,
-                html: '<p>Wanderwerk : Créez votre profil de marche</p>',
+                html: '<p>Wanderwerk : CrÃ©ez votre profil de marche</p>',
                 cls: 'info-panel'
             }),
             new Ext.Panel({
@@ -91,7 +91,7 @@ function makeDataPanel () {
             height: 30,
             cls: 'properties-panel',
             html: '<div class="properties">'
-            + '<div class="left"><p class="label"><label for="speed">Facteur de vitesse(kme/h) : </label></p><p><input id="speed" class="speed" type="number" name="speed" value="4" /></p></div>'
+            + '<div class="left"><p class="label"><label for="speed">Facteur de vitesse(kme/h)Â : </label></p><p><input id="speed" class="speed" type="number" name="speed" value="4" /></p></div>'
             + '<div class="right" style="display:none;"><p class="label"><label for="maps">Cartes topographiques : </label></p><p><input id="maps" type="text" name="maps" /></p></div>'
             + '</div>'
     });
@@ -142,12 +142,12 @@ function makeChart () {
         width: '590px',
         height: '355px',
         title: {
-            text: 'Profile altimétrique'
+            text: 'Profile altimÃ©trique'
         },
         tooltip: {
             formatter: function () {
                 return '<b>' + this.key + '</b><br/>' +
-                        this.x + 'km à ' + this.y + 'm';
+                        this.x + 'km Ã  ' + this.y + 'm';
             }
         },
         xAxis: {
@@ -157,7 +157,7 @@ function makeChart () {
         },
         yAxis: {
             title: {
-                text: 'Elévation [m]'
+                text: 'ElÃ©vation [m]'
             }
         },
         series: null
@@ -227,7 +227,7 @@ function makeProfileGridPanel () {
                 header: 'Altitude [m]',
                 dataIndex: 'alt'
             }, {
-                header: 'Dénivelé par 100m [m/hm]',
+                header: 'DÃ©nivelÃ© par 100m [m/hm]',
                 dataIndex: 'deniv100'
             }, {
                 header: 'Distance [km]',
@@ -251,7 +251,7 @@ function makeProfileGridPanel () {
         ]});
         //Create the GridPanel with the previously created column model.
     gridPanel = new Ext.grid.GridPanel({
-        title: 'Tracé actif',
+        title: 'TracÃ© actif',
         store: this.profileDs,
         colModel: colModel,
         trackMouseOver: false,
@@ -329,7 +329,7 @@ function makeCompareGridPanel () {
                 header: 'Descente totale [m]',
                 dataIndex: 'sumDescend'
             },{
-                header: 'Montée totale [m]',
+                header: 'MontÃ©e totale [m]',
                 dataIndex: 'sumAscend'
             }, /* {
                 header: 'Nombre de pauses',
@@ -345,7 +345,7 @@ function makeCompareGridPanel () {
 
     //Create the GridPanel with the previously created column model.
     gridPanel = new Ext.grid.GridPanel({
-        title: 'Comparatif des tracés',
+        title: 'Comparatif des tracÃ©s',
         store: this.compareDs,
         colModel: colModel,
         trackMouseOver: false,

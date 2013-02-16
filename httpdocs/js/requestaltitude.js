@@ -1,4 +1,4 @@
-/**
+ï»¿/**
  * API created by Benjamin Gerber
  * Open source, following the licence "Creative Commons BY-NC"
  * Based on OpenLayers 2.12, GeoExt 1.1, HighCharts 2.3.5, Geonames, GeoAdmin API and
@@ -83,7 +83,7 @@ function requestAltitudes () {
             }
         },
         failure: function (result, request) {
-            Ext.MessageBox.alert('Un problème est survenue, veuillez réessayer plus tard.');
+            Ext.MessageBox.alert('Un problÃ¨me est survenue, veuillez rÃ©essayer plus tard.');
         }
     });
 }

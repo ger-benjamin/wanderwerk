@@ -35,7 +35,7 @@ Requirements
 ------------------------
 * Require a server with PHP (5.3 min, tested on Apache).
 * The libraries ExtJS 3.4, and GeoExt OpenLayers 2.11.
-* A modern browser (tested on Opera 12+, chrome 24+ and safari 5.1+, see (same) bugs on FireFox and Internet Explorer, fix soon) and a proper connection are required on the client side.
+* A modern browser (tested on Opera V12, chrome V24 and safari V5.1, FireFox V16 and Internet Explorer 9) and a proper connection are required on the client side.
 
 Installation
 ------------------------

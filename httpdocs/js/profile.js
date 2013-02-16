@@ -1,4 +1,4 @@
-/**
+﻿/**
  * API created by Benjamin Gerber
  * Open source, following the licence "Creative Commons BY-NC"
  * Based on OpenLayers 2.12, GeoExt 1.1, HighCharts 2.3.5, Geonames, GeoAdmin API and

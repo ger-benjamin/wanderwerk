@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 if (isset($_POST["lats"]) && isset($_POST["lngs"])) {
     $request = "http://ws.geonames.org/astergdem?lats=".$_POST["lats"]."&lngs=".$_POST["lngs"]."&username=ger.benjamin";
     $result = file_get_contents($request);
