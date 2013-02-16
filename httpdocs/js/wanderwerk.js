@@ -311,7 +311,7 @@ function onLineAdded (e) {
  * 4 = red
  * 5 = blue
  * @param {int} nLines , a number of line 
- * @returns {String} a hex color (whitout '#').
+ * @returns {String} a hex color.
  */
 function generateColor (nLines) {
     var r = 0, g = 0, b = 0, iteration = Math.floor((nLines - 1) / 5);
@@ -344,7 +344,7 @@ function generateColor (nLines) {
     r = (r.length > 1) ? r : "0" + r;
     g = (g.length > 1) ? g : "0" + g;
     b = (b.length > 1) ? b : "0" + b;
-    return r + g + b;
+    return '#' + r + g + b;
 }
 
 /**
@@ -401,10 +401,10 @@ function setLinesSelector (reset) {
             if (this.profiles[i] === this.currentProfile) {
                 value = i;
                 if (this.currentProfile.color) {
-                    Ext.DomQuery.selectNode('.toolbar .lineSelector select').setAttribute('style', 'background-color:#DDDDDD; color:#' + this.currentProfile.color);
+                    Ext.DomQuery.selectNode('.toolbar .lineSelector select').setAttribute('style', 'background-color:#DDDDDD; color:' + this.currentProfile.color);
                 }
             }
-            this.addLinesSelectorOption(i, 'Tracé ' + (i + 1), ('#' + this.profiles[i].color || '#000000'));
+            this.addLinesSelectorOption(i, 'Tracé ' + (i + 1), (this.profiles[i].color || '#000000'));
         }
     }
     Ext.select('.lineSelector select').elements[0].value = value;
@@ -424,7 +424,7 @@ function setFirstTabTitle () {
     if (this.currentProfile) {
         value = this.currentProfile.name;
     }
-    Ext.select('.x-tab-strip .x-tab-strip-text').elements[0].setAttribute('style', 'color: #' + color);
+    Ext.select('.x-tab-strip .x-tab-strip-text').elements[0].setAttribute('style', 'color:' + color);
     Ext.select('.x-tab-strip .x-tab-strip-text').elements[0].textContent = value;
 
 }
@@ -644,7 +644,7 @@ function calculateCompareDs () {
         data = profile.data;
         if (data && data.length > 0) {
             last = data.length - 1;
-            name = '<span style="color: #' + profile.color + '">' + profile.name + '</span>';
+            name = '<span style="color:' + profile.color + '">' + profile.name + '</span>';
             km = data[last][6];
             kme = data[last][7];
             heightMin = data[0][1];
