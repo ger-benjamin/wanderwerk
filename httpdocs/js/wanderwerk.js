@@ -548,7 +548,6 @@ function deletePoint (e) {
  * call 'calculateDs' and 'setChart' to Fill data stores and set the chart.
  */
 function calculate () {
-    var i;
     this.displayWaitMessage(true);
     ajaxObject.noCurrentProfile++;
     if (this.profiles[ajaxObject.noCurrentProfile - 1]) {
@@ -569,6 +568,9 @@ function calculate () {
  */
 function calculateDs (forceCalculate) {
     var i;
+    if(!this.currentProfile){
+        return;
+    }
     for (i = 0; i < this.profiles.length; i++) {
         if (forceCalculate || this.profiles[i].data) {
             this.profiles[i].data = this.calculateProfileDs(this.profiles[i]);
