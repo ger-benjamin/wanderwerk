@@ -23,6 +23,10 @@
     border-top:solid #666666 1px;
 }
 
+#body .grid-panel .x-panel-body{
+    border-bottom-width: 0px;
+} 
+
 #body .x-grid3-viewport, #body .x-tab-strip-top{
     border:none;
     padding-top:0;
@@ -286,4 +290,10 @@
     border-width: 0 2px 2px 0;
     border-top:solid #666666;
     border-top-width: 1px;
+}
+
+#body .footer{
+    text-align: center;
+    font-weight: normal;
+    color:gray;
 }

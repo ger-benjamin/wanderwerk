@@ -1,4 +1,4 @@
-Wanderwerk (to V1)
+Wanderwerk V1
 =======================
   The Wanderwerk project is a  online mapping application developed for Scouts to calculate the profile of their hikes.
 Nevertheless, it can be quite usefulany walker, jogger, cyclist etc.
@@ -15,7 +15,7 @@ Version
 ------------------------
   Proposed in alpha version by Benjamin Gerber and Nicolas PY in a course of HEIG_VD, COMEM 2012.
 Project results delivered "as is" (1 week of work for two people) visible at this address "http://carto.iict.ch/blog/wanderwerk/."
-  Actual version (Soon version 1) proposed by Benjamin Gerber
+  Actual version (V1) is proposed by Benjamin Gerber
 Try it on local. On server in a few weeks.
 
 Licence

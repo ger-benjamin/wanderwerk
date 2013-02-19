@@ -10,7 +10,6 @@
  */
 function makePanels () {
     this.makeChart();
-
     //Arrange and display panels
     new Ext.Viewport({
         layout: 'border',
@@ -64,7 +63,7 @@ function makeMapPanel () {
     apiST = new GeoAdmin.API({lang: 'fr'});
 
     this.map = apiST.createMap({
-        layers: "ch.swisstopo.pixelkarte-farbe, test",
+        layers: "ch.swisstopo.pixelkarte-farbe, map",
         easting: 600000,
         northing: 200000
     });
@@ -91,11 +90,11 @@ function makeDataPanel () {
             height: 30,
             cls: 'properties-panel',
             html: '<div class="properties">'
-            + '<div class="left"><p class="label"><label for="speed">Facteur de vitesse(kme/h) : </label></p><p><input id="speed" class="speed" type="number" name="speed" value="4" /></p></div>'
+            + '<div class="left"><p class="label"><label for="speed">Facteur de vitesse(kme/h) : </label></p><p><input id="speed" class="speed" type="number" name="speed" value="4" /></p></div>'
             + '<div class="right" style="display:none;"><p class="label"><label for="maps">Cartes topographiques : </label></p><p><input id="maps" type="text" name="maps" /></p></div>'
             + '</div>'
     });
-    
+
     this.tabPanel = this.makeGridsTabPanel();
 
     dataPanel = new Ext.Panel({
@@ -105,74 +104,27 @@ function makeDataPanel () {
         height: 300,
         split: true,
         cls: 'data-panel',
-        autoScroll: true,
         items: [
             panelProperties,
-            this.tabPanel
+            this.tabPanel,
+            this.makeFooter()
         ]
     });
 
     return dataPanel;
-}
-/**
- * Create a hidden panel container for futur chart.
- * This panel will not be "created and destroyed" but will be "displayed and
- * hidden" to prevent bugs and improve the process.
- * Create the chart without data.
- */
-function makeChart () {
-    this.chartPanel = new Ext.Window({
-        width: 600,
-        height: 450,
-        title: "Profil altimetrique",
-        html: '<div id="chartcontainer"></div>',
-        cls: 'chart-panel',
-        closable: true,
-        closeAction: 'hide'
-    });
-
-    chartPanel.show();
-    chartPanel.hide();
-
-    this.chart = new Highcharts.Chart({
-        chart: {
-            renderTo: 'chartcontainer',
-            type: 'line'
-        },
-        width: '590px',
-        height: '355px',
-        title: {
-            text: 'Profile altimétrique'
-        },
-        tooltip: {
-            formatter: function () {
-                return '<b>' + this.key + '</b><br/>' +
-                        this.x + 'km à ' + this.y + 'm';
-            }
-        },
-        xAxis: {
-            title: {
-                text: 'Distance [km]'
-            }
-        },
-        yAxis: {
-            title: {
-                text: 'Elévation [m]'
-            }
-        },
-        series: null
-    });
 }
 
 /**
  * Make and return a TabPanel with gridPanel in each two tabs.
  */
 function makeGridsTabPanel () {
-    return  new Ext.TabPanel({
-        height: 200,
+    return new Ext.TabPanel({
         region: 'center',
         cls: 'grids-tabpanel',
         activeTab: 0,
+        defaults: {
+            layout: 'fit'
+        },
         items: [
             this.makeProfileGridPanel(),
             this.makeCompareGridPanel()
@@ -249,14 +201,14 @@ function makeProfileGridPanel () {
                 dataIndex: 'tmpTot'
             }
         ]});
-        //Create the GridPanel with the previously created column model.
+    //Create the GridPanel with the previously created column model.
     gridPanel = new Ext.grid.GridPanel({
         title: 'Tracé actif',
         store: this.profileDs,
         colModel: colModel,
+        autoHeight: true,
+        layout: 'fit',
         trackMouseOver: false,
-        height: 200,
-        region: 'center',
         cls: 'grid-panel',
         viewConfig: {
             emptyText: "Vous devez calculer au moins un profile pour l'afficher."
@@ -303,7 +255,7 @@ function makeCompareGridPanel () {
             }]
     });
     //Calcul width manually because ExtJS seem not offert this feature.
-    width = Math.floor(document.body.offsetWidth / (this.compareDs.fields.length -2));
+    width = Math.floor(document.body.offsetWidth / (this.compareDs.fields.length - 2));
     //Create the colum Manager
     colModel = new Ext.grid.ColumnModel({
         defaults: {
@@ -328,19 +280,19 @@ function makeCompareGridPanel () {
             }, {
                 header: 'Descente totale [m]',
                 dataIndex: 'sumDescend'
-            },{
+            }, {
                 header: 'Montée totale [m]',
                 dataIndex: 'sumAscend'
             }, /* {
-                header: 'Nombre de pauses',
-                dataIndex: 'pauses'
-            }, */ {
+             header: 'Nombre de pauses',
+             dataIndex: 'pauses'
+             }, */ {
                 header: 'Temps [h:m]',
                 dataIndex: 'tmp'
             }/*, {
-                header: 'Temps avec pauses [h:m]',
-                dataIndex: 'tmpWithPauses'
-            }*/
+             header: 'Temps avec pauses [h:m]',
+             dataIndex: 'tmpWithPauses'
+             }*/
         ]});
 
     //Create the GridPanel with the previously created column model.
@@ -348,13 +300,78 @@ function makeCompareGridPanel () {
         title: 'Comparatif des tracés',
         store: this.compareDs,
         colModel: colModel,
+        layout: 'fit',
+        autoHeight: true,
         trackMouseOver: false,
-        height: 200,
-        region: 'center',
         cls: 'grid-panel',
         viewConfig: {
             emptyText: "Vous devez calculer au moins un profile afficher une comparaison."
         }
     });
     return gridPanel;
+}
+
+/**
+ * Make a footer panel
+ * @returns (object) Ext.MapPanel 
+ */
+function makeFooter () {
+    return new Ext.Panel({
+        region: 'south',
+        height: 30,
+        cls: 'footer-panel',
+        html: '<div class="footer">'
+                + '<p>Wanderwerk version 1. Créé par benjamin gerber (ger.benjamin(at)gmail.com), supporté par les scouts Perceval de Moutier</p>'
+                + '</div>'
+    });
+}
+
+/**
+ * Create a hidden panel container for futur chart.
+ * This panel will not be "created and destroyed" but will be "displayed and
+ * hidden" to prevent bugs and improve the process.
+ * Create the chart without data.
+ */
+function makeChart () {
+    this.chartPanel = new Ext.Window({
+        width: 600,
+        height: 450,
+        title: "Profil altimetrique",
+        html: '<div id="chartcontainer"></div>',
+        cls: 'chart-panel',
+        closable: true,
+        closeAction: 'hide'
+    });
+
+    chartPanel.show();
+    chartPanel.hide();
+
+    this.chart = new Highcharts.Chart({
+        chart: {
+            renderTo: 'chartcontainer',
+            type: 'line'
+        },
+        width: '590px',
+        height: '355px',
+        title: {
+            text: 'Profile altimétrique'
+        },
+        tooltip: {
+            formatter: function () {
+                return '<b>' + this.key + '</b><br/>' +
+                        this.x + 'km à ' + this.y + 'm';
+            }
+        },
+        xAxis: {
+            title: {
+                text: 'Distance [km]'
+            }
+        },
+        yAxis: {
+            title: {
+                text: 'Elévation [m]'
+            }
+        },
+        series: null
+    });
 }

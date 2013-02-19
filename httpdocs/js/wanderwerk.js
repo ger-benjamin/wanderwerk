@@ -7,7 +7,7 @@
  */
 
 //Global variables
-var picPath = "images/wanderwerk/",
+        var picPath = "images/wanderwerk/",
         map = null,
         profileDs = null,
         compareDs = null,
@@ -15,7 +15,6 @@ var picPath = "images/wanderwerk/",
         controls = {},
         buttons = {},
         chartPanel = null,
-        tabPanel = null,
         chart = null,
         profiles = [],
         currentProfile = null;
@@ -26,6 +25,7 @@ var picPath = "images/wanderwerk/",
 Ext.onReady(function () {
     this.displayWaitMessage(true);
     this.makePanels(); //see ./interfaces.js
+    this.setChart();
     this.addMapsControls();
     this.bindEvents();
     displayWaitMessage(false);
@@ -568,7 +568,7 @@ function calculate () {
  */
 function calculateDs (forceCalculate) {
     var i;
-    if(!this.currentProfile){
+    if (!this.currentProfile) {
         return;
     }
     for (i = 0; i < this.profiles.length; i++) {
@@ -689,25 +689,36 @@ function calculateCompareDs () {
  * Use color of profiles to highlight them.
  */
 function setChart () {
-    var i, j, data, serie = {data: []};
+    var i, j, data;
+
+    if (!this.currentProfile) {
+        this.chart.addSeries({data:[]}, true);
+        return;
+    }
 
     while (this.chart.series.length > 0) {
         this.chart.series[0].remove(false);
     }
     for (i = 0; i < this.profiles.length; i++) {
         data = this.profiles[i].data;
-        serie.data.length = 0;
+        
+        //add serie
+        this.chart.addSeries({
+            color: this.profiles[i].color,
+            data: []
+        }, false);
+    
+        //add points
         for (j = 0; j < data.length; j++) {
-            serie.data.push({
-                x: data[j][6],
-                y: data[j][1],
+            this.chart.series[i].addPoint({
+                x: parseFloat(data[j][6]),
+                y: parseFloat(data[j][1]),
                 name: data[j][0],
                 color: this.profiles[i].color
-            });
+            }, false);
         }
-        serie.color = this.profiles[i].color;
-        this.chart.addSeries(serie, true);
     }
+    this.chart.redraw();
 }
 
 /**
