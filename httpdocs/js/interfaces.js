@@ -21,6 +21,7 @@ function makePanels () {
         ]
     });
     this.setLinesSelector(true);
+    this.tabPanel.setHeight(270); //@fix me
 }
 
 /**
@@ -121,10 +122,8 @@ function makeGridsTabPanel () {
     return new Ext.TabPanel({
         region: 'center',
         cls: 'grids-tabpanel',
+        autoScrol:'auto',
         activeTab: 0,
-        defaults: {
-            layout: 'fit'
-        },
         items: [
             this.makeProfileGridPanel(),
             this.makeCompareGridPanel()
@@ -206,8 +205,6 @@ function makeProfileGridPanel () {
         title: 'Tracé actif',
         store: this.profileDs,
         colModel: colModel,
-        autoHeight: true,
-        layout: 'fit',
         trackMouseOver: false,
         cls: 'grid-panel',
         viewConfig: {
@@ -300,8 +297,6 @@ function makeCompareGridPanel () {
         title: 'Comparatif des tracés',
         store: this.compareDs,
         colModel: colModel,
-        layout: 'fit',
-        autoHeight: true,
         trackMouseOver: false,
         cls: 'grid-panel',
         viewConfig: {

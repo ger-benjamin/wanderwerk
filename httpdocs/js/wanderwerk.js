@@ -692,7 +692,7 @@ function setChart () {
     var i, j, data;
 
     if (!this.currentProfile) {
-        this.chart.addSeries({data:[]}, true);
+        this.chart.addSeries({data: []}, true);
         return;
     }
 
@@ -701,13 +701,13 @@ function setChart () {
     }
     for (i = 0; i < this.profiles.length; i++) {
         data = this.profiles[i].data;
-        
+
         //add serie
         this.chart.addSeries({
             color: this.profiles[i].color,
             data: []
         }, false);
-    
+
         //add points
         for (j = 0; j < data.length; j++) {
             this.chart.series[i].addPoint({

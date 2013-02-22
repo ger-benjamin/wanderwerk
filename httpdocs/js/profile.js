@@ -42,7 +42,7 @@ Profile.prototype.setColor = function (highlight, color) {
     if (highlight) {
         style.strokeWidth = 5;
     } else {
-        style.strokeWidth = 1;
+        style.strokeWidth = 2;
     }
     this.line.style = style;
 };
