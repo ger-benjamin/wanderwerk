@@ -21,7 +21,7 @@ function makePanels () {
         ]
     });
     this.setLinesSelector(true);
-    this.tabPanel.setHeight(270); //@fix me
+    this.tabPanel.setHeight(271); //@fix me
 }
 
 /**
@@ -166,7 +166,7 @@ function makeProfileGridPanel () {
             }]
     });
     //Calcul width manually because ExtJS seem not offert this feature.
-    width = Math.floor(document.body.offsetWidth / this.profileDs.fields.length);
+    width = Math.floor((document.body.offsetWidth - 21) / this.profileDs.fields.length);
     // create the colum Manager
     colModel = new Ext.grid.ColumnModel({
         defaults: {
@@ -252,7 +252,7 @@ function makeCompareGridPanel () {
             }]
     });
     //Calcul width manually because ExtJS seem not offert this feature.
-    width = Math.floor(document.body.offsetWidth / (this.compareDs.fields.length - 2));
+    width = Math.floor((document.body.offsetWidth - 21) / (this.compareDs.fields.length - 2));
     //Create the colum Manager
     colModel = new Ext.grid.ColumnModel({
         defaults: {

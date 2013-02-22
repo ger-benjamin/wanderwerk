@@ -280,9 +280,11 @@ function eraseAll () {
             this.profiles.length = 0;
             this.currentProfile = null;
             this.profileDs.removeAll();
+            this.compareDs.removeAll();
             this.setSelectedLine();
             this.layers.lines.redraw();
             this.layers.points.redraw();
+            toggleControl(['addLine']);
         }
     }, this);
 }
