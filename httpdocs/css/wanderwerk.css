@@ -18,7 +18,7 @@
 #body .x-tab-panel-body , #body .x-tab-panel-header{
     border:solid #222222;
     border-width: 2px 0 2px;
-    background-image: url("../images/wanderwerk/background.png");
+    background-image: url("../images/background.png");
     color: white;
     border-top:solid #666666 1px;
 }
@@ -30,7 +30,7 @@
 #body .x-grid3-viewport, #body .x-tab-strip-top{
     border:none;
     padding-top:0;
-    background-image: url("../images/wanderwerk/background.png");
+    background-image: url("../images/background.png");
 }
 
 #body .toolbar table{
@@ -56,7 +56,7 @@
     border-width: 2px 2px 2px;
     border-top: solid #666666 1px;
     border-radius: 5px;
-    background-image: url("../images/wanderwerk/icones.png");
+    background-image: url("../images/icones.png");
     background-repeat: no-repeat;
 }
 
@@ -251,7 +251,7 @@
 }
 
 #body .x-grid3-header{
-    background-image: url("../images/wanderwerk/background.png");
+    background-image: url("../images/background.png");
     border:solid #222222;
     border-width: 0 0 2px 0; 
 }
@@ -261,7 +261,7 @@
 }
 
 #body .x-grid3-hd-row td, #body .x-grid3-hd-row td div:hover{
-    background-image: url("../images/wanderwerk/background.png");
+    background-image: url("../images/background.png");
     border:solid #222222;
     border-width: 0 2px 0 0;
     padding-right: 2px;
@@ -292,7 +292,7 @@
 }
 
 #body .x-grid3-hd-row td div{
-    background-image: url("../images/wanderwerk/background.png");
+    background-image: url("../images/background.png");
 }
 
 #body .x-grid3-header-inner {

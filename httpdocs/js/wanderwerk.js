@@ -7,8 +7,7 @@
  */
 
 //Global variables
-        var picPath = "images/wanderwerk/",
-        map = null,
+        var map = null,
         profileDs = null,
         compareDs = null,
         layers = {},
