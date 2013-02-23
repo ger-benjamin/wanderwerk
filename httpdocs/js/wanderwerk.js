@@ -27,7 +27,7 @@ Ext.onReady(function () {
     this.setChart();
     this.addMapsControls();
     this.bindEvents();
-    displayWaitMessage(false);
+    this.displayWaitMessage(false);
 });
 
 /**
@@ -194,7 +194,7 @@ function addButtonsControl () {
     this.buttons.calculate = this.createButton('Générer le profil', 'calculate', this.calculate);
     this.buttons.displayChart = this.createButton('Afficher le graphique', 'displayChart', this.toggleChartVisibility);
     this.buttons.erase = this.createButton('Tout effacer', 'erase', this.eraseAll);
-    this.buttons.help = this.createButton('Informations et aide', 'help', function(){
+    this.buttons.help = this.createButton('Informations et aide', 'help', function () {
         alert("L'aide n'est pas encore disponible.");
     });
 
@@ -455,6 +455,8 @@ function addLinesSelectorOption (value, text, color) {
  * to 1. If a profile exist, call 'calculateDs' with false parametre (to
  *  recalculate DataStore without get altitude (to economies datas from
  *  geonames)).
+ *  Calcul speed only after 500ms and if value if always the same
+ *  (to avoid sur-re-calculatation).
  * @param {int} value
  */
 function setSpeed (value) {
@@ -462,10 +464,11 @@ function setSpeed (value) {
         value = 1;
         Ext.select('.properties .speed').elements[0].value = value;
     }
-    if (this.profiles.length <= 0) {
-        return;
-    }
-    this.calculateDs(false);
+    setTimeout(function () {
+        if (value === Ext.select('.properties .speed').elements[0].value) {
+            this.calculateDs(false);
+        }
+    }, 500, this);
 }
 
 /**
@@ -559,8 +562,8 @@ function calculate () {
         ajaxObject.noCurrentProfile = 0;
         this.calculateDs(true);
         this.setChart();
-        this.displayWaitMessage(false);
     }
+    displayWaitMessage(false);
 }
 
 /**
@@ -574,6 +577,7 @@ function calculateDs (forceCalculate) {
     if (!this.currentProfile) {
         return;
     }
+    displayWaitMessage(true);
     for (i = 0; i < this.profiles.length; i++) {
         if (forceCalculate || this.profiles[i].data) {
             this.profiles[i].data = this.calculateProfileDs(this.profiles[i]);
@@ -581,6 +585,7 @@ function calculateDs (forceCalculate) {
     }
     this.profileDs.loadData(this.currentProfile.data || []);
     this.compareDs.loadData(this.calculateCompareDs());
+    displayWaitMessage(false);
 }
 
 /**
