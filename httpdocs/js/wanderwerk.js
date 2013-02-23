@@ -195,6 +195,9 @@ function addButtonsControl () {
     this.buttons.calculate = this.createButton('Générer le profil', 'calculate', this.calculate);
     this.buttons.displayChart = this.createButton('Afficher le graphique', 'displayChart', this.toggleChartVisibility);
     this.buttons.erase = this.createButton('Tout effacer', 'erase', this.eraseAll);
+    this.buttons.help = this.createButton('Informations et aide', 'help', function(){
+        alert("L'aide n'est pas encore disponible.");
+    });
 
     //Active first the "addLine" control
     toggleControl(['addLine']);
@@ -270,12 +273,11 @@ function displayWaitMessage (display) {
  * (Reset Wanderwerk)
  */
 function eraseAll () {
-    var i;
     Ext.MessageBox.confirm('Tout effacer ?', 'Le tracé ainsi que les points de passage seront définitvement perdus. Êtes-vous sur de vouloir tout effacer ?', function (btn) {
         if (btn === 'yes') {
-            for (i = 0; i < this.profiles.length; i++) {
-                this.profiles[i].destroy();
-                delete this.profiles[i];
+            while (this.profiles.length > 0) {
+                this.profiles[0].destroy();
+                this.profiles = this.profiles.slice(1);
             }
             this.profiles.length = 0;
             this.currentProfile = null;

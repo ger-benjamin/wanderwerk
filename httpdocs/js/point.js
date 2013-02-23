@@ -99,6 +99,5 @@ Point.prototype.setAltitude = function (altitude) {
  */
 Point.prototype.destroy = function () {
     this.feature.destroy();
-    delete this;
 };
 

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * API created by Benjamin Gerber
  * Open source, following the licence "Creative Commons BY-NC"
  * Based on OpenLayers 2.12, GeoExt 1.1, HighCharts 2.3.5, Geonames, GeoAdmin API and
@@ -232,10 +232,9 @@ Profile.prototype.calculateAltitudes = function (ctx) {
  * delete the this.
  */
 Profile.prototype.destroy = function () {
-    for (var i = 0; i < this.points.length; i++) {
-        this.points[i].destroy();
-        delete this.point[i];
+    while (this.points.length > 0) {
+        this.points[0].destroy();
+        this.points = this.points.slice(1);
     }
     this.line.destroy();
-    delete this;
 };

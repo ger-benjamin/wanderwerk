@@ -56,6 +56,8 @@
     border-width: 2px 2px 2px;
     border-top: solid #666666 1px;
     border-radius: 5px;
+    background-image: url("../images/wanderwerk/icones.png");
+    background-repeat: no-repeat;
 }
 
 #body .toolbar .selected button{
@@ -65,75 +67,87 @@
 }
 
 #body .toolbar .addLine button{
-    background-image: url("../images/wanderwerk/addLine.png");
-}
-
-#body .toolbar .addLine button:hover, #body .toolbar .addLine.selected button:hover{
-    background-image: url("../images/wanderwerk/addLineHover.png");
+    background-position: 0 0;
 }
 
 #body .toolbar .addLine.selected button{
-    background-image: url("../images/wanderwerk/addLineSelected.png");
+    background-position: -32px 0;
+}
+
+#body .toolbar .addLine button:hover, #body .toolbar .addLine.selected button:hover{
+    background-position: -64px 0;
 }
 
 #body .toolbar .updateLine button{
-    background-image: url("../images/wanderwerk/updateLine.png");
-}
-
-#body .toolbar .updateLine button:hover, #body .toolbar .updateLine.selected button:hover{
-    background-image: url("../images/wanderwerk/updateLineHover.png");
+    background-position: 0 -32px;
 }
 
 #body .toolbar .updateLine.selected button{
-    background-image: url("../images/wanderwerk/updateLineSelected.png");
+    background-position: -32px -32px;
+}
+
+#body .toolbar .updateLine button:hover, #body .toolbar .updateLine.selected button:hover{
+    background-position: -64px -32px;
 }
 
 #body .toolbar .addPoint button{
-    background-image: url("../images/wanderwerk/addPoint.png");
-}
-
-#body .toolbar .addPoint button:hover, #body .toolbar .addPoint.selected button:hover{
-    background-image: url("../images/wanderwerk/addPointHover.png");
+    background-position: 0 -64px;
 }
 
 #body .toolbar .addPoint.selected button{
-    background-image: url("../images/wanderwerk/addPointSelected.png");
+    background-position: -32px -64px;
+}
+
+#body .toolbar .addPoint button:hover, #body .toolbar .addPoint.selected button:hover{
+    background-position: -64px -64px;
 }
 
 #body .toolbar .updatePoint button{
-    background-image: url("../images/wanderwerk/updatePoint.png");
-}
-
-#body .toolbar .updatePoint button:hover, #body .toolbar .updatePoint.selected button:hover{
-    background-image: url("../images/wanderwerk/updatePointHover.png");
+    background-position: 0 -96px;
 }
 
 #body .toolbar .updatePoint.selected button{
-    background-image: url("../images/wanderwerk/updatePointSelected.png");
+    background-position: -32px -96px;
+}
+
+#body .toolbar .updatePoint button:hover, #body .toolbar .updatePoint.selected button:hover{
+    background-position: -64px -96px;
 }
 
 #body .toolbar .calculate button{
-    background-image: url("../images/wanderwerk/calculate.png");
+    background-position: 0px -128px;
 }
 
 #body .toolbar .calculate button:hover, #body .toolbar .calculate button:hover{
-    background-image: url("../images/wanderwerk/calculateHover.png");
+    background-position: -64px -128px;
 }
 
 #body .toolbar .displayChart button{
-    background-image: url("../images/wanderwerk/chart.png");
+    background-position: -0px -160px;
 }
 
 #body .toolbar .displayChart button:hover, #body .toolbar .displayChart button:hover{
-    background-image: url("../images/wanderwerk/chartHover.png");
+    background-position: -64px -160px;
 }
 
 #body .toolbar .erase button{
-    background-image: url("../images/wanderwerk/trash.png");
+    background-position: -0px -192px;
 }
 
 #body .toolbar .erase button:hover, #body .toolbar .erase button:hover{
-    background-image: url("../images/wanderwerk/trashHover.png");
+    background-position: -64px -192px;
+}
+
+#body .toolbar .help{
+    float:right;
+}
+
+#body .toolbar .help button{
+    background-position: -0px -224px;
+}
+
+#body .toolbar .help button:hover, #body .toolbar .help button:hover{
+    background-position: -64px -224px;
 }
 
 #body .lineSelector{
@@ -304,11 +318,11 @@
 }
 
 #body .footer a, #body .footer a:visited{
-	color: #00AA00;
-	text-decoration: none;
+    color: #00AA00;
+    text-decoration: none;
 }
 
 #body .footer a:hover{
-	color: #00FF00;
-	text-shadow: 0px 0px 10px rgba(0, 255, 255, 0.6);
+    color: #00FF00;
+    text-shadow: 0px 0px 10px rgba(0, 255, 255, 0.6);
 }
