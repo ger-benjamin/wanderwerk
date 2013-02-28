@@ -1,8 +1,8 @@
-﻿/**
+/**
  * API created by Benjamin Gerber
  * Open source, following the licence "Creative Commons BY-NC"
- * Based on OpenLayers 2.12, GeoExt 1.1, HighCharts 2.3.5, Geonames, GeoAdmin API and
- * Wanderwerk Alpha (created in 2012 by Benjamin Gerber and Nicolas PY as
+ * Based on OpenLayers 2.12, GeoExt 1.1, HighCharts 2.3.5, Geonames, GeoAdmin API
+ * jquery and a prototype of Wanderwerk (created in 2012 by Benjamin Gerber and Nicolas PY as
  * a school-project for COMEM, HEIG-VD).
  */
 /**

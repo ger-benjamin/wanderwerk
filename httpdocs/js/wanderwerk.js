@@ -1,8 +1,8 @@
-﻿/**
+/**
  * API created by Benjamin Gerber
  * Open source, following the licence "Creative Commons BY-NC"
- * Based on OpenLayers 2.12, GeoExt 1.1, HighCharts 2.3.5, Geonames, GeoAdmin API and
- * Wanderwerk Alpha (created in 2012 by Benjamin Gerber and Nicolas PY as
+ * Based on OpenLayers 2.12, GeoExt 1.1, HighCharts 2.3.5, Geonames, GeoAdmin API
+ * jquery and a prototype of Wanderwerk (created in 2012 by Benjamin Gerber and Nicolas PY as
  * a school-project for COMEM, HEIG-VD).
  */
 
@@ -189,13 +189,14 @@ function createButton (tooltip, cls, fn) {
  * Button calculate wich set altitude for the points and generate profils.
  * Button displayChart wich juste toglle chartPanel's visibility
  * Button erase wich delete all created features.   
+ * Button help wich display a "help and informations page" 
  */
 function addButtonsControl () {
     this.buttons.calculate = this.createButton('Générer le profil', 'calculate', this.calculate);
     this.buttons.displayChart = this.createButton('Afficher le graphique', 'displayChart', this.toggleChartVisibility);
     this.buttons.erase = this.createButton('Tout effacer', 'erase', this.eraseAll);
     this.buttons.help = this.createButton('Informations et aide', 'help', function () {
-        alert("L'aide n'est pas encore disponible.");
+        window.open("./pages/informations.html","help and informations");
     });
 
     //Active first the "addLine" control
@@ -276,7 +277,7 @@ function eraseAll () {
         if (btn === 'yes') {
             while (this.profiles.length > 0) {
                 this.profiles[0].destroy();
-                this.profiles = this.profiles.slice(1);
+                this.profiles.splice(0, 1);
             }
             this.profiles.length = 0;
             this.currentProfile = null;

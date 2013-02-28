@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Wanderwerk - Informations</title>
+        <meta charset="utf-8" />
+        <meta name="description" content="Profil de marche online">
+        <meta name="keywords" content="profil, temps, marche, scout, tracé, randonnées, walking, time, track, hiking, Pfadfinder, Pfadi, Wandern, Laufzeit">
+        <meta name="author" content="Benjamin Gerber">
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js" type="text/javascript"></script>
+        <script type="text/javascript" src="../lib/jquery-lightbox-0.5/js/jquery.lightbox-0.5.min.js"></script>
+        <link rel="shortcut icon" href="../images/favicon.ico" />
+        <link rel="stylesheet" type="text/css" href="../css/pages.css" />
+        <link rel="stylesheet" type="text/css" href="../lib/jquery-lightbox-0.5/css/jquery.lightbox-0.5.css" media="screen" />
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('a.lightbox').lightBox();
+            });
+        </script>
+    </head>
+    <body>
+        <div class="header">
+            <img src="../images/logo_wanderwerk.png" title="logo wanderwerk" alt="logo wanderwerk" height="75" width="375" />
+        </div>
+        <div class="menu">
+            <ul class="noPoints">
+                <li><a href="../" title="Retour à l'application">Application</a></li>
+                <li class="active"><a href="./informations.html" title="Obtenir des informations">Informations</a></li>
+                <li><a href="./help.html" title="Obtenir de l'aide">Aide</a></li>
+            </ul>
+        </div>
+        <div class="body">
+            <div class="content">
+                <h1>Informations</h1>
+                <p>Wanderwerk est un outil de création de profils de marche.
+                    En quelques clicks, créez un tracé sur la carte, ajoutez-y des
+                    points de passages et laisser le programme vous informer du
+                    temps qu'il vous faudra pour atteindre votre destination.</p>
+                <p>Actuellement, Wanderwerk permet de naviguer sur une carte Suisse,
+                    de calculer un tracé et d'en comparer plusieurs.
+                    Prochainement, je compte donner à Wanderwerk d'autres capacités
+                    telles que la possibilité de naviguer hors de la suisse,
+                    d'ajouter des pauses et surtout d'imprimer le ou les tracés</p>
+                <p>Wanderwerk est un projet personnel à but non commercial et
+                    initialement prévue dans le but d'aider les groupes scouts
+                    (dont <a href="http://www.scout-perceval.ch/" target="_blank"
+                             title="Voir le site des Scouts Perceval de Moutier">
+                        celui auquel je fait partie</a>) à prévoir, au mieux,
+                    leurs marches. En cas de problème ou dans l'attente de
+                    développement du projet, je vous  prie de vous armer de
+                    patience. D'autres occupations nécessites mon attention.</p>
+                <h2>Contact</h2>
+                <p>Si vous avez des questions ou des remarques concernant Wanderwerk
+                    n'hésitez pas à me via mon compte
+                    <a href="http://ch.linkedin.com/in/benjamingerber" target="_blank" title="Voir le profil LinkedIn" >LinkedIn</a>
+                    ou mon compte 
+                    <a href="https://github.com/ger-benjamin/wanderwerk" target="_blank" title="Voir le code source">github</a> 
+                    (sur lequel vous pouvez d'ailleur rapporter des problèmes et
+                    télécharger le code source).</p>
+                <h2>Calculs et informations délivrées</h2>
+                <p>Les points ajouté sur un tracé délivrent des informations
+                    de position (en référence métrique d'ou découle facilement
+                    le nombre de kilomètres entre deux points) et d'altitude et
+                    un bouton vous permet de régler  la vitesse mais d'ou
+                    viennent les information de temps et de kilomètre effort ?
+                    Le calcul du temps est simple, il s'agit de la distance en
+                    km-efforts divisé par la vitesse. En revanche, le calcul
+                    du nombre km-effort est moins évident. Ce dernier suis les
+                    règles de la formule se retrouvant dans les documents officiel
+                    de calcul de profile marche scout (pour des personnes se déplacant sans
+                    véhicule) C'est à dire :
+                <h3>Pour les montés</h3>
+                <p>On ajoute simplement le nombre d'hectomètre au nombre de kilomètre.
+                    Donc pour une pente de 300 mètre de montée pour 1 kilomètre de
+                    long, le nombre de km-efforts sera égale à 4.</p>
+                <h3>Pour les descentes</h3>
+                <p>Pour les pentes de plus de 20%, on ajoute 1 km pour chaque
+                    150 mètres de dénivellé parcourue. C'est à dire que si l'on
+                    descent un pente de 300 mètre de descente et de 1 km de long
+                    (donc une pente de plus de 20%), le nombre de km-efforts sera égale à 3.</p>
+                <h3>Pour le plat et les faibles pentes</h3>
+                <p>Pour le pente nulle ou inférieur à 20%, le nombre kilomètre
+                    effort égale le nombre de kilomètre.</p>
+                <h2>Précision</h2>
+                <h3>Distance horizontale</h3>
+                <p>Sur le plan horizontale (à vol d'oiseau), Wanderwerk est aussi
+                    précis que les cartes données par Swiss topo le permettent
+                    puisque les calculs se font à partir des même coordonnées
+                    (système de coordonnées MN03, système de référence CH 1904).</p>
+                <h3>Altitude</h3>
+                <p>Le calcule de l'altitude peut être un peu moins
+                    précis que sur une carte de Swiss topo. Pour des raisons
+                    techniques, l'altitude n'est pas donnée par Swiss Topo mais
+                    par un web service de <a href="http://www.geonames.org/" target="_blank" title="Voir le site de geonames">Geonames</a>.
+                    (Aster Global Digital Elevation Model, astergdm) Le service utilisé de Geonames offre
+                    un repère altimétrique tout les 30 mètres. Si un point est
+                    donnée entre les mailles de ce quadrillage, le résultats sera
+                    équivalent au résultats logiques de la pente définit par les quatres
+                    points l'entourant. Le nombre de reqête d'altitude est limité
+                    par Geonames, ainsi <span class="bold">l'altitude ne sera relevé que sur les points
+                        de passage que vous avez ajouté au tracé</span>. La précision du tracé
+                    sera donc définit par le nombre de points de passage que vous
+                    avez définit. Pour gagner en précision, il est conseillé d'ajouter
+                    d'avantages de points <span class="bold"> et surtout d'ajouter un points de
+                        passage avant et après chaque montés et descentes significatives.</span>
+                    par le nombre de points que vous avez ajouté sur le tracé.</p>
+                <h3>Comparatif</h3>
+                <p>Au final, vous pouvez décelé quelques différences entre un autre
+                    logiciel générant des profile de marche (Swiss map par exemple) et Wanderwerk.
+                    Ces différences sont  dûe aux différence d'altitude et, pour le temps, à la façon
+                    de le calculer. Dans l'ensemble, même s'il y a une différence
+                    d'altitude de plusieurs mètres pour un point donné, le
+                    profile dans son ensemble saura s'équilibrer et les différences finales seront négligentes
+                    pour une utilision "de base". Pour exemple, voici un comparatif
+                    de trois même tracé calculer de façon différentes : </p>
+                <ul>
+                    <li>Premier cas, un profile calculé par le logiciel officiel Swiss Map de Swiss Topo</li>
+                    <li>Deuxième cas, un profile calculé par Wanderwerk, avec 10 points</li>
+                    <li>Troisième cas, un profile calculé par Wanderwerk, avec 20 points</li>
+                </ul>
+                <div class="inlineImages">
+                    <ul class="noPoints">
+                        <li>
+                            <a class="lightbox" href="../images/pages/informations/MoutierDelemontSM.jpg" title="Tracé avec Swiss Map." >
+                                <img src="../images/pages/informations/MoutierDelemontSM_mini.jpg" alt="Tracé avec Swiss Map." />
+                            </a>
+                        </li>
+                        <li>
+                            <a class="lightbox" href="../images/pages/informations/MoutierDelemontW1.jpg" title="Tracé avec Wanderwerk 10 points.">
+                                <img src="../images/pages/informations/MoutierDelemontW1_mini.jpg" alt="Tracé avec Wanderwerk 10 points."/>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="lightbox" href="../images/pages/informations/MoutierDelemontW2.jpg" title="Tracé avec Wanderwerk 20 points.">
+                                <img src="../images/pages/informations/MoutierDelemontW2_mini.jpg" alt="Tracé avec Wanderwerk 20 points." />
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <p>Le kilométrage est différent de 800 mètres, ceci est simplement
+                    due à mon irrégularité lorsque j'ai tracé les différents chemins sur les
+                    deux logiciels différents. Plus intéressant, on peut
+                    remarquer que le dénivellé total (monté et descente)
+                    diffère passablement entre les trois versions. Swiss Map est
+                    le plus précis mais wanderwerk augmentent rapidement en précision avec le
+                    nombre de points données. Avec suffisament de points, Wanderwerk
+                    aurait différé de maximum 60 mètres (après essaies). Ce qui, au fonds,
+                    a assez peu d'impact sur une randonnée. Remarquez que pour le temps,
+                    Swiss Map semble se baser sur une vitesse d'environ 4.3 km/h comme
+                    dans cet exemple mais, contrairement à Wanderwerk, ne compte
+                    pas d'efforts supplémentaires pour la descente (mais pour la monté, oui).
+                    Cela implique une différence de km-efforts et donc de temps.</p>
+                <h2>A venir pour la version 2</h2>
+                <p>Les points ci-dessous sont des idées, non-ordré, de dévellopement
+                    possible pour Wanderwerk. Aucune date de réalisation ne saurait
+                    être donnée.</p>
+                <ul>
+                    <li>Ajouter des pauses à des points pour incrémenter le temps total.</li>
+                    <li>Définir une date ainsi qu'une heure de départ pour se rendre compte à quelle l'on se trouvera à tel ou tel points.</li>
+                    <li>Choisir la couleur de son tracé.</li>
+                    <li>Inverser le sens de marche du tracé.</li>
+                    <li>Fusionner deux tracé en un seul</li>
+                    <li>Sélectionner un point sur la carte ou dans le tableau met en évidence le point correspondant sur la carte ou dans le tableau.</li>
+                    <li>Ajouter un champ de recherche de ville/coordonnée qui ajuste la position de la carte à la recherche.</li>
+                    <li>Affichage du numéro des cartes parcourues (et donc des cartes à avoir) pour le tracé sélectionné.</li>
+                    <li>Changer le nom de chaque points et de chaque ligne (pour impression et export futurs).</li>
+                    <li>Exporter et d'importer un profile (format KML probablement)</li>
+                    <li>Imprimer un profil de marche.</li>
+                    <li>Se souvenir de l'utilisateur, quitter et revenir sur la page nefface plus les tracés créés.</li>
+                    <li>Améliorer les performances en générale.</li>
+                </ul>
+                <h2>Liens utiles</h2>
+                <ul>
+                    <li><a href="http://map.geo.admin.ch/" target="_blank" title="Géoportail Suisse officiel.">Géoportail Suisse officiel</a> (avec possibilité d'impression à une echelle donnée).</li>
+                    <li><a href="http://www.swisstopo.admin.ch/internet/swisstopo/fr/home/products/maps/national/25.html" target="_blank" title="Informations sur les cartes topographiques Suisse." >Couverture, informations et commandes des cartes topographiques Suisse</a>.</li>
+                    <li><a href="http://www.scout.ch/fr/association/downloads/programme/point-forts/trekking/calcul-du-temps-de-marche/at_download/file" target="_blank" title="Calculer un profile de marche à la main." >Comment calculer un profile de marche sans ordinateur</a></li>
+                    <li><a href="http://www.openstreetmap.ch/" target="_blank" title="Open street map." >Carte du monde non-propriétaire</a>. Pensez à prendre un GPS et à compléter la carte après chacune de vos randonnée.</li>
+                    <li><a href="http://www.scout-perceval.ch/index.php?pageId=44&amp;dossierId=8" target="_blank" title="Equipement de marche." >Bien s'équiper pour les randonnées.</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer">
+            <p>Wanderwerk V1. Edité le 25.02.13. Créé par <a href="http://ch.linkedin.com/in/benjamingerber" target="_blank" title="Voir le profil LinkedIn" >Benjamin Gerber</a>, supporté par les <a href="http://www.scout-perceval.ch/" target="_blank" title="Voir le site des Scouts Perceval de Moutier">Scouts Perceval de Moutier.</a></p>
+            <p>Application open source, disponible sur <a href="https://github.com/ger-benjamin/wanderwerk" target="_blank" title="Voir le code source">github</a>. Sous licence <a href="http://creativecommons.org/licenses/by-nc/2.5/ch/deed.fr" target="_blank" title="Voir la licence" >Creative Commons BY-NC</a></p>
+        </div>
+    </body>
+</html>

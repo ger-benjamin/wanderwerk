@@ -1,8 +1,8 @@
 /**
  * API created by Benjamin Gerber
  * Open source, following the licence "Creative Commons BY-NC"
- * Based on OpenLayers 2.12, GeoExt 1.1, HighCharts 2.3.5, Geonames, GeoAdmin API and
- * Wanderwerk Alpha (created in 2012 by Benjamin Gerber and Nicolas PY as
+ * Based on OpenLayers 2.12, GeoExt 1.1, HighCharts 2.3.5, Geonames, GeoAdmin API
+ * jquery and a prototype of Wanderwerk (created in 2012 by Benjamin Gerber and Nicolas PY as
  * a school-project for COMEM, HEIG-VD).
  */
 /**
@@ -234,7 +234,7 @@ Profile.prototype.calculateAltitudes = function (ctx) {
 Profile.prototype.destroy = function () {
     while (this.points.length > 0) {
         this.points[0].destroy();
-        this.points = this.points.slice(1);
+        this.points.splice(0, 1);
     }
     this.line.destroy();
 };
