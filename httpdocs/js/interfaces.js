@@ -316,7 +316,7 @@ function makeFooter () {
         height: 30,
         cls: 'footer-panel',
         html: '<div class="footer">'
-                + '<p>Wanderwerk version 1. Créé par <a href="http://ch.linkedin.com/in/benjamingerber" target="_blank" title="Voir le profil LinkedIn" >Benjamin Gerber</a>, supporté par les <a href="http://www.scout-perceval.ch/" target="_blank" title="Voir le site des Scouts Perceval de Moutier">Scouts Perceval de Moutier</a>. Application open source, disponible sur <a href="https://github.com/ger-benjamin/wanderwerk" target="_blank" title="Voir le code source">github</a>. Sous licence <a href="http://creativecommons.org/licenses/by-nc/2.5/ch/deed.fr" target="_blank" title="Voir la licence" >Creative Commons BY-NC</a></p>'
+                + '<p>Wanderwerk V1. Edité le 01.03.13. Créé par <a href="http://ch.linkedin.com/in/benjamingerber" target="_blank" title="Voir le profil LinkedIn" >Benjamin Gerber</a>, supporté par les <a href="http://www.scout-perceval.ch/" target="_blank" title="Voir le site des Scouts Perceval de Moutier">Scouts Perceval de Moutier</a>. Application open source, disponible sur <a href="https://github.com/ger-benjamin/wanderwerk" target="_blank" title="Voir le code source">github</a>. Sous licence <a href="http://creativecommons.org/licenses/by-nc/2.5/ch/deed.fr" target="_blank" title="Voir la licence" >Creative Commons BY-NC</a></p>'
                 + '</div>'
     });
 }
