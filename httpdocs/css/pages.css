@@ -174,3 +174,27 @@ a:hover{
     border-radius: 0 0 10px 10px;
 }
 
+/*for help page*/
+.clear{
+    clear:both;
+}
+
+.tools h3{
+    clear:both;
+}
+
+.tools div p{
+    width:90%;
+    float:left;
+}
+
+.tools div img{
+    float:right;
+    margin-right:20px;
+    background-image: url("../images/background.png");
+    width:40px;
+    height:40px;
+    border-radius: 5px;
+    border:1px inset #00AA00;
+}
+
