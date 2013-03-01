@@ -13,10 +13,10 @@ Currently work only in switzerland
 
 Version
 ------------------------
-  Proposed in alpha version by Benjamin Gerber and Nicolas PY in a course of HEIG_VD, COMEM 2012.
-Project results delivered "as is" (1 week of work for two people) visible at this address "http://carto.iict.ch/blog/wanderwerk/."
   Actual version (V1) is proposed by Benjamin Gerber
-Try it on local. On server in a few weeks.
+Try it on local. Or on http://www.gerben.ch/wanderwerk
+  Prototype version proposed by Benjamin Gerber and Nicolas PY in a course of HEIG_VD, COMEM 2012.
+Project results delivered "as is" (1 week of work for two people) visible at this address "http://carto.iict.ch/blog/wanderwerk/."
 
 Licence
 ------------------------
@@ -26,7 +26,7 @@ Current author
 ------------------------
 *	Benjamin Gerber ger-benjamin@gmail.com  
   
-Original authors (alpha version)
+Original authors (prototype version)
 ------------------------
 *   Benjamin Gerber
 *   Nicolas PY
@@ -34,7 +34,7 @@ Original authors (alpha version)
 Requirements
 ------------------------
 * Require a server with PHP (5.3 min, tested on Apache).
-* The libraries ExtJS 3.4, and GeoExt OpenLayers 2.11.
+* The libraries ExtJS 3.4, GeoExt-1.1, OpenLayers 2.11, Highcharts-2.3.5 and jquery-lightbox-0.5
 * A modern browser (tested on Opera V12, chrome V24 and safari V5.1, FireFox V16 and Internet Explorer 9) and a proper connection are required on the client side.
 
 Installation
@@ -45,4 +45,5 @@ Installation
 - Download and unzip OpenLayers-2.11 (http://openlayers.org/)
 - Download and unzip GeoExt-1.1 (http://www.geoext.org/)
 - Download and unzip Highcharts 2.3.5(http://www.highcharts.com/)
+- Download and unzip jquery-lightbox-0.5 (http://leandrovieira.com/projects/jquery/lightbox/)
 * Launch the browser to the server adress.
