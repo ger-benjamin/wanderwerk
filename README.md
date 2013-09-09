@@ -13,10 +13,9 @@ Currently work only in switzerland
 
 Version
 ------------------------
-  Actual version (V1) is proposed by Benjamin Gerber
-Try it on local. Or on http://www.gerben.ch/wanderwerk
-  Prototype version proposed by Benjamin Gerber and Nicolas PY in a course of HEIG_VD, COMEM 2012.
-Project results delivered "as is" (1 week of work for two people) visible at this address "http://carto.iict.ch/blog/wanderwerk/."
+Currently in version 1+
+See file "version.md" for more informations
+Try version 1+ on local. Or on http://www.gerben.ch/wanderwerk
 
 Licence
 ------------------------
@@ -24,7 +23,7 @@ Open source, following the licence "Creative Commons BY-NC".
 
 Current author
 ------------------------
-*	Benjamin Gerber ger-benjamin@gmail.com  
+*   Benjamin Gerber ger-benjamin@gmail.com  
   
 Original authors (prototype version)
 ------------------------

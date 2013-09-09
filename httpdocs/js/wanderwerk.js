@@ -7,7 +7,7 @@
  */
 
 //Global variables
-        var map = null,
+var map = null,
         profileDs = null,
         compareDs = null,
         layers = {},
@@ -21,7 +21,7 @@
 /**
  * First instruction, create panels and add controls.
  */
-Ext.onReady(function () {
+Ext.onReady(function() {
     this.displayWaitMessage(true);
     this.makePanels(); //see ./interfaces.js
     this.setChart();
@@ -33,7 +33,7 @@ Ext.onReady(function () {
 /**
  * Add some controls and layers at the used map
  */
-function addMapsControls () {
+function addMapsControls() {
     //add keybord controls
     //this.map.addControl(new OpenLayers.Control.KeyboardDefaults());
 
@@ -51,7 +51,7 @@ function addMapsControls () {
  * Add possibilities to create (draw) and modify lines on the map
  * Add functions to features's events
  */
-function addLineControls () {
+function addLineControls() {
     //Add the option and the layers wich give the ability to draw lines on the map.
     addDrawOption();
 
@@ -73,7 +73,7 @@ function addLineControls () {
  * Add possibilities to create and modify points on the map
  * Add functions to features's events
  */
-function addPointsControls () {
+function addPointsControls() {
     //Add the option and the layers wich give the ability to create points on the map.
     this.addPointOption();
 
@@ -98,7 +98,7 @@ function addPointsControls () {
  * Add the option and the layer wich allow to draw lines.
  * Also set the style of the line.
  */
-function addDrawOption () {
+function addDrawOption() {
     var lineSymbolizer, rules = [], temporaryRedLine, finalRedLine;
     lineSymbolizer = new OpenLayers.Symbolizer.Line({
         strokeWidth: 3,
@@ -130,7 +130,7 @@ function addDrawOption () {
  * Add the option and the layer wich allow to create points.
  * Also set the style of the points.
  */
-function addPointOption () {
+function addPointOption() {
     var pointSymbolizer, rules = [], temporaryPoint, finalPoint;
     pointSymbolizer = new OpenLayers.Symbolizer.Point({
         strokeWidth: 1,
@@ -170,13 +170,13 @@ function addPointOption () {
  * @param fn
  * @returns Ext.Button
  */
-function createButton (tooltip, cls, fn) {
+function createButton(tooltip, cls, fn) {
     var arg = arguments;
     var button = new Ext.Button({
         tooltip: tooltip,
         tooltipType: 'title',
         cls: cls,
-        handler: function () {
+        handler: function() {
             fn(arg);
         }
     });
@@ -191,12 +191,12 @@ function createButton (tooltip, cls, fn) {
  * Button erase wich delete all created features.   
  * Button help wich display a "help and informations page" 
  */
-function addButtonsControl () {
+function addButtonsControl() {
     this.buttons.calculate = this.createButton('Générer le profil', 'calculate', this.calculate);
     this.buttons.displayChart = this.createButton('Afficher le graphique', 'displayChart', this.toggleChartVisibility);
     this.buttons.erase = this.createButton('Tout effacer', 'erase', this.eraseAll);
-    this.buttons.help = this.createButton('Informations et aide', 'help', function () {
-        window.open("./pages/informations.html","help and informations");
+    this.buttons.help = this.createButton('Informations et aide', 'help', function() {
+        window.open("./pages/informations.html", "help and informations");
     });
 
     //Active first the "addLine" control
@@ -207,7 +207,7 @@ function addButtonsControl () {
  * Toggle activated controls and addclass to corresponding button.
  * @param {array} args arguments
  */
-function toggleControl (args) {
+function toggleControl(args) {
     var k;
     for (k in this.controls) {
         this.controls[k].deactivate();
@@ -231,14 +231,14 @@ function toggleControl (args) {
  * When speed input change, call function 'setSelectedLine'.
  * When TabPanel's tab change, call function 'setFirstTabTitle'.
  */
-function bindEvents () {
-    Ext.select('.lineSelector select').on('change', function (e, t, o) {
+function bindEvents() {
+    Ext.select('.lineSelector select').on('change', function(e, t, o) {
         this.setSelectedLine(this.profiles[parseInt(t.value)]);
     }, this);
-    Ext.select('.properties .speed').on('change', function (e, t, o) {
+    Ext.select('.properties .speed').on('change', function(e, t, o) {
         this.setSpeed(t.value);
     }, this);
-    this.tabPanel.on('tabchange', function (o, tab) {
+    this.tabPanel.on('tabchange', function(o, tab) {
         this.setFirstTabTitle();
     }, this);
 }
@@ -246,7 +246,7 @@ function bindEvents () {
 /**
  * Toggle chart's Panel visibility
  */
-function toggleChartVisibility () {
+function toggleChartVisibility() {
     if (this.chartPanel.isVisible()) {
         this.chartPanel.hide();
     }
@@ -259,7 +259,7 @@ function toggleChartVisibility () {
  * Display a wait popup if given parameter is true. Hide it else.
  * @param {Boolean} display
  */
-function displayWaitMessage (display) {
+function displayWaitMessage(display) {
     if (display) {
         Ext.MessageBox.wait("Veuillez patienter", 'Travail en cours');
     }
@@ -272,8 +272,8 @@ function displayWaitMessage (display) {
  * Delete all create feature and refresh layers.
  * (Reset Wanderwerk)
  */
-function eraseAll () {
-    Ext.MessageBox.confirm('Tout effacer ?', 'Le tracé ainsi que les points de passage seront définitvement perdus. Êtes-vous sur de vouloir tout effacer ?', function (btn) {
+function eraseAll() {
+    Ext.MessageBox.confirm('Tout effacer ?', 'Le tracé ainsi que les points de passage seront définitvement perdus. Êtes-vous sur de vouloir tout effacer ?', function(btn) {
         if (btn === 'yes') {
             while (this.profiles.length > 0) {
                 this.profiles[0].destroy();
@@ -296,7 +296,7 @@ function eraseAll () {
  * line, and call method 'setSelectedLine'.
  * @param {OpenLayers.Feature.Vector} e
  */
-function onLineAdded (e) {
+function onLineAdded(e) {
     var profile = new Profile(e.feature, this.generateColor(this.profiles.length + 1), 'Tracé ' + (this.profiles.length + 1));
     this.profiles.push(profile);
     this.setSelectedLine(profile);
@@ -317,7 +317,7 @@ function onLineAdded (e) {
  * @param {int} nLines , a number of line 
  * @returns {String} a hex color.
  */
-function generateColor (nLines) {
+function generateColor(nLines) {
     var r = 0, g = 0, b = 0, iteration = Math.floor((nLines - 1) / 5);
     switch (nLines - iteration * 5) {
         case 1 : //magenta
@@ -362,7 +362,7 @@ function generateColor (nLines) {
  * Call function 'setFirstTabTitle';
  * @param {Profile} profileToSelect
  */
-function setSelectedLine (profileToSelect) {
+function setSelectedLine(profileToSelect) {
     var i;
     if (this.profiles.length <= 0) {
         this.setLinesSelector(true);
@@ -391,7 +391,7 @@ function setSelectedLine (profileToSelect) {
  * If given boolean is "true" display a special option.
  * @param {Boolean} reset
  */
-function setLinesSelector (reset) {
+function setLinesSelector(reset) {
     var i, value = 'default',
             linesSelector = Ext.DomQuery.selectNode('.toolbar .lineSelector select');
     while (linesSelector.length > 0) {
@@ -418,7 +418,7 @@ function setLinesSelector (reset) {
  * Display name of profile with color of profile as the title of the first tab.
  * If first tab isn't selected, use white color.
  */
-function setFirstTabTitle () {
+function setFirstTabTitle() {
     var value = 'Tracé sélectionné', color = '#FFFFFF';
     if (this.tabPanel.items.items[0] === this.tabPanel.activeTab) {
         if (this.currentProfile) {
@@ -440,7 +440,7 @@ function setFirstTabTitle () {
  * @param {String} text
  * @param {String} color
  */
-function addLinesSelectorOption (value, text, color) {
+function addLinesSelectorOption(value, text, color) {
     var linesSelector = Ext.DomQuery.selectNode('.toolbar .lineSelector select'),
             node = document.createElement('option');
     node.setAttribute('value', value);
@@ -460,12 +460,12 @@ function addLinesSelectorOption (value, text, color) {
  *  (to avoid sur-re-calculatation).
  * @param {int} value
  */
-function setSpeed (value) {
+function setSpeed(value) {
     if (!parseInt(value) > 0) {
         value = 1;
         Ext.select('.properties .speed').elements[0].value = value;
     }
-    setTimeout(function () {
+    setTimeout(function() {
         if (value === Ext.select('.properties .speed').elements[0].value) {
             this.calculateDs(false);
         }
@@ -478,7 +478,7 @@ function setSpeed (value) {
  * message.
  * @param {OpenLayers.Feature.Vector} e
  */
-function onPointAdded (e) {
+function onPointAdded(e) {
     var point = e.feature;
     if (!this.currentProfile || !this.currentProfile.line) {
         point.destroy();
@@ -496,7 +496,7 @@ function onPointAdded (e) {
  *  null, return.
  * @param {OpenLayers.Feature.Vector} point
  */
-function addPoint (point) {
+function addPoint(point) {
     if (!point) {
         return;
     }
@@ -514,7 +514,7 @@ function addPoint (point) {
  * and 'sortPoints' of the currentProfile and redraw points layer.
  * @param {OpenLayers.Feature.Vector} e
  */
-function onDragLineComplete (e) {
+function onDragLineComplete(e) {
     this.ctx.displayWaitMessage(true);
     this.ctx.currentProfile.replaceAllPoints();
     this.ctx.currentProfile.sortPoints();
@@ -527,7 +527,7 @@ function onDragLineComplete (e) {
  * and 'sortPoints' of the currentProfile and redraw points layer.
  * @param {OpenLayers.Feature.Vector} e
  */
-function onDragPointComplete (e) {
+function onDragPointComplete(e) {
     this.ctx.displayWaitMessage(true);
     this.ctx.currentProfile.replacePoint(e);
     this.ctx.currentProfile.sortPoints();
@@ -540,7 +540,7 @@ function onDragPointComplete (e) {
  * Redraw points layer.
  * @param {OpenLayers.Feature.Vector} e
  */
-function deletePoint (e) {
+function deletePoint(e) {
     var pointToDelete = this.ctx.controls.updatePoint.feature;
     if (e.keyCode === 46) {
         this.ctx.currentProfile.removePoint(pointToDelete);
@@ -554,17 +554,20 @@ function deletePoint (e) {
  * Request altitude for all points in all profiles.
  * call 'calculateDs' and 'setChart' to Fill data stores and set the chart.
  */
-function calculate () {
+function calculate() {
     this.displayWaitMessage(true);
     ajaxObject.noCurrentProfile++;
-    if (this.profiles[ajaxObject.noCurrentProfile - 1]) {
+    if (this.profiles[ajaxObject.noCurrentProfile - 1] && ajaxObject.error === null) {
         this.profiles[ajaxObject.noCurrentProfile - 1].calculateAltitudes(this);
     } else {
-        ajaxObject.noCurrentProfile = 0;
+        ajaxObject.reset();
         this.calculateDs(true);
         this.setChart();
+        displayWaitMessage(false);
+        if (ajaxObject.error === null) {
+
+        }
     }
-    displayWaitMessage(false);
 }
 
 /**
@@ -573,7 +576,7 @@ function calculate () {
  * Else, do anything on a profile if it doesn't have data.
  * @param {Boolean} forceCalculate
  */
-function calculateDs (forceCalculate) {
+function calculateDs(forceCalculate) {
     var i;
     if (!this.currentProfile) {
         return;
@@ -594,7 +597,7 @@ function calculateDs (forceCalculate) {
  * @param {Profile} profile
  * @returns {array} rows
  */
-function calculateProfileDs (profile) {
+function calculateProfileDs(profile) {
     var i, point, name, speed = Ext.get('speed').getValue(),
             altitude = -1, slope100 = 0, km = 0, kme = 0, percent, duration = 0,
             hours = 0, min = 0, totDuration = 0, totHours = 0, totMin = 0,
@@ -646,7 +649,7 @@ function calculateProfileDs (profile) {
  * Compare data of all profile and return result as rows for dataStore.
  * @returns {array} rows
  */
-function calculateCompareDs () {
+function calculateCompareDs() {
     var i, j, data, last, profile, name, km, kme, altitude, difAltitude, heightMin, heightMax,
             sumDescend = 0, sumAscend = 0, pauses = 0, tmp, tmpWithPauses;
     rows = [];
@@ -697,7 +700,7 @@ function calculateCompareDs () {
  * Set the chart with current profiles's data.
  * Use color of profiles to highlight them.
  */
-function setChart () {
+function setChart() {
     var i, j, data;
 
     if (!this.currentProfile) {
@@ -738,7 +741,7 @@ function setChart () {
  * @param {OpenLayers.Feature.Vector} point2
  * @returns {int} the distance between two point or -1
  */
-function distanceBetweenTwoPoints (line, point1, point2) {
+function distanceBetweenTwoPoints(line, point1, point2) {
     var i, points = [], pointA, pointB, pointC = point1, vec1, vec2,
             d1, d2, rec = false, firstLoopFirstAdd = false, distance = 0;
 

@@ -178,7 +178,7 @@ function makeProfileGridPanel () {
                 header: 'Altitude [m]',
                 dataIndex: 'alt'
             }, {
-                header: 'Dénivelé par 100m [m/hm]',
+                header: 'Dénivelé [m]',
                 dataIndex: 'deniv100'
             }, {
                 header: 'Distance [km]',

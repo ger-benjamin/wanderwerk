@@ -14,7 +14,7 @@
  * @param {OpenLayers.Feature.Vector} point
  * @param {String} type
  */
-function Point (point, type) {
+function Point(point, type) {
     this.feature = point || null;
     this.isAutoName = true;
     this.setName(null);
@@ -34,7 +34,7 @@ function Point (point, type) {
  * @param {type} y
  * @returns {Boolean} (true if point is moved, false else)
  */
-Point.prototype.move = function (x, y) {
+Point.prototype.move = function(x, y) {
     var pos;
     if (!this.feature || typeof x !== "number" || typeof y !== "number") {
         return false;
@@ -56,7 +56,7 @@ Point.prototype.move = function (x, y) {
  *  or will be the default name, the current corrdinate of the point. 
  * @param {String} name
  */
-Point.prototype.setName = function (name) {
+Point.prototype.setName = function(name) {
     if (name && typeof name === 'string') {
         this.name = name;
         this.isAutoName = false;
@@ -70,7 +70,7 @@ Point.prototype.setName = function (name) {
  * Set the Type of the point. If the type is null or not a String, the type will be 'normal'
  * @param {String} type
  */
-Point.prototype.setType = function (type) {
+Point.prototype.setType = function(type) {
     this.type = (type && typeof type === 'string') ? type : 'normal';
 };
 
@@ -84,7 +84,7 @@ Point.prototype.setType = function (type) {
  * @param {number} altitude
  * @return Boolean false or true
  */
-Point.prototype.setAltitude = function (altitude) {
+Point.prototype.setAltitude = function(altitude) {
     if (!this.feature || typeof altitude !== 'number' || altitude < -500 || altitude > 9000) {
         return false;
     }
@@ -97,7 +97,7 @@ Point.prototype.setAltitude = function (altitude) {
 /**
  * Destroy point's feature and delete the this.
  */
-Point.prototype.destroy = function () {
+Point.prototype.destroy = function() {
     this.feature.destroy();
 };
 

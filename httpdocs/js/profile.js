@@ -15,7 +15,7 @@
  * @param {String} color
  * @param {String} name
  */
-function Profile (line, color, name) {
+function Profile(line, color, name) {
     this.line = line || null;
     this.points = [];
     this.name = name || '';
@@ -29,7 +29,7 @@ function Profile (line, color, name) {
  * @param {Boolean} highlight
  * @param {String} color
  */
-Profile.prototype.setColor = function (highlight, color) {
+Profile.prototype.setColor = function(highlight, color) {
     var style;
     if (color && typeof color === 'string') {
         this.color = color;
@@ -54,7 +54,7 @@ Profile.prototype.setColor = function (highlight, color) {
  *  method 'replacePoint'.  
  * @param {OpenLayers.Feature.Vector} point
  */
-Profile.prototype.addPoint = function (point) {
+Profile.prototype.addPoint = function(point) {
     var type;
     if (!point) {
         return;
@@ -74,7 +74,7 @@ Profile.prototype.addPoint = function (point) {
  * remove the points.
  * @param {OpenLayers.Feature.Vector} point
  */
-Profile.prototype.removePoint = function (point) {
+Profile.prototype.removePoint = function(point) {
     var pointInProfile = this.getPointInProfile(point);
     if (!pointInProfile.point || pointInProfile.point.type === 'firstPoint' || pointInProfile.point.type === 'lastPoint') {
         return;
@@ -89,7 +89,7 @@ Profile.prototype.removePoint = function (point) {
  * @param {OpenLayers.Feature.Vector} point
  * @return {Object} objectwith point and position (of point, in points's array).
  */
-Profile.prototype.getPointInProfile = function (point) {
+Profile.prototype.getPointInProfile = function(point) {
     var i, pointTemp, obj;
     if (point) {
         for (i = 0; i < this.points.length; i++) {
@@ -109,7 +109,7 @@ Profile.prototype.getPointInProfile = function (point) {
 /**
  * Call method 'replacePoint' with all points in this points's array.
  */
-Profile.prototype.replaceAllPoints = function () {
+Profile.prototype.replaceAllPoints = function() {
     for (var i = 0; i < this.points.length; i++) {
         this.replacePoint(this.points[i]);
     }
@@ -121,7 +121,7 @@ Profile.prototype.replaceAllPoints = function () {
  * @param {Point} point
  * @returns {Boolean} (true if point is replaced, false else)
  */
-Profile.prototype.replacePoint = function (point) {
+Profile.prototype.replacePoint = function(point) {
     var distanceLineToPoint, posX, posY, linelastPoint = this.line.geometry.getVertices().length - 1;
     if (point instanceof OpenLayers.Feature.Vector) {
         point = this.getPointInProfile(point).point;
@@ -150,7 +150,7 @@ Profile.prototype.replacePoint = function (point) {
 /**
  * Sort point's array depending of line's direction.
  */
-Profile.prototype.sortPoints = function () {
+Profile.prototype.sortPoints = function() {
     var i, j, k, pointsPos = [], pointsInLine = [], pointA, pointB,
             pointC, vec1, vec2, d1, d2, temp, isAlreadyAdded, newPoints = [];
 
@@ -210,7 +210,7 @@ Profile.prototype.sortPoints = function () {
  * accept more points in a row.
  * @param {Object} ctx context to use in after ajax request (thus, main context)
  */
-Profile.prototype.calculateAltitudes = function (ctx) {
+Profile.prototype.calculateAltitudes = function(ctx) {
     var i, maxPoints = 20, pointsWithoutAltitudes = [], arrayOfPoints = [], index = 0;
     for (i = 0; i < this.points.length; i++) {
         if (!this.points[i].altitude) {
@@ -231,7 +231,7 @@ Profile.prototype.calculateAltitudes = function (ctx) {
  * Destroy line's feature, call destroy method on all points and
  * delete the this.
  */
-Profile.prototype.destroy = function () {
+Profile.prototype.destroy = function() {
     while (this.points.length > 0) {
         this.points[0].destroy();
         this.points.splice(0, 1);

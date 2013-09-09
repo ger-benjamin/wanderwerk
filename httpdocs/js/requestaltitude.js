@@ -21,7 +21,8 @@ var ajaxObject = {
     ctx: null,
     arrayOfPoints: null,
     noCurrentProfile: 0,
-    noCurrentPoints: 0
+    noCurrentPoints: 0,
+    error: null
 };
 
 /**
@@ -31,7 +32,7 @@ var ajaxObject = {
  * object from context 'ctx' in ajaxObject too.
  * In case of failure, display a message. 
  */
-function requestAltitudes () {
+function requestAltitudes() {
     var i, points, latsA = [], lngsA = [],
             lats, lngs, lngLat, convertedLngLats = [];
     if (ajaxObject.workEnded || ajaxObject.arrayOfPoints.length <= 0) {
@@ -63,7 +64,7 @@ function requestAltitudes () {
             lats: lats,
             lngs: lngs
         },
-        success: function (result, request) {
+        success: function(result, request) {
             var j, altitudes = Ext.decode(result.responseText);
 
             if (ajaxObject.arrayOfPoints && typeof parseInt(altitudes[0]) === "number") {
@@ -82,9 +83,9 @@ function requestAltitudes () {
                 ajaxObject.fn();
             }
         },
-        failure: function (result, request) {
-            Ext.MessageBox.alert('Un problème est survenue, veuillez réessayer plus tard.');
+        failure: function(result, request) {
+            this.ajaxObject.workEnded = true;
+            this.error = result;
         }
     });
 }
-;
