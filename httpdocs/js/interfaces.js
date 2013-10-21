@@ -8,7 +8,7 @@
 /**
  * Make Ext panels and set centent
  */
-function makePanels () {
+function makePanels() {
     this.makeChart();
     //Arrange and display panels
     new Ext.Viewport({
@@ -29,7 +29,7 @@ function makePanels () {
  *  general informations)
  * @return (object) Ext.MapPanel 
  */
-function makeHeader () {
+function makeHeader() {
     var tempHTML = '<div class="lineSelector">\n\
                 <p><label for="lineSelector">Tracé : </label></p>\n\
                 <p><select id="lineSelector" style="background-color:#000000" type="text" name="lineSelector"></select></p>\n\
@@ -59,7 +59,7 @@ function makeHeader () {
  * Create map SwissTopo and put her into the returned panel.
  * @return (object) GeoExt.MapPanel.
  */
-function makeMapPanel () {
+function makeMapPanel() {
     var apiST, mapPanel;
     apiST = new GeoAdmin.API({lang: 'fr'});
 
@@ -84,16 +84,16 @@ function makeMapPanel () {
  * Create and return data panel whith grid (datatable) for profil's information
  * @return (object) Ext.MapPanel 
  */
-function makeDataPanel () {
+function makeDataPanel() {
     var dataPanel,
             panelProperties = new Ext.Panel({
-    region: 'north',
-            height: 30,
-            cls: 'properties-panel',
-            html: '<div class="properties">'
-            + '<div class="left"><p class="label"><label for="speed">Facteur de vitesse(kme/h) : </label></p><p><input id="speed" class="speed" type="number" name="speed" value="4" /></p></div>'
-            + '<div class="right" style="display:none;"><p class="label"><label for="maps">Cartes topographiques : </label></p><p><input id="maps" type="text" name="maps" /></p></div>'
-            + '</div>'
+        region: 'north',
+        height: 30,
+        cls: 'properties-panel',
+        html: '<div class="properties">'
+                + '<div class="left"><p class="label"><label for="speed">Facteur de vitesse(kme/h) : </label></p><p><input id="speed" class="speed" type="number" name="speed" value="4" /></p></div>'
+                + '<div class="right" style="display:none;"><p class="label"><label for="maps">Cartes topographiques : </label></p><p><input id="maps" type="text" name="maps" /></p></div>'
+                + '</div>'
     });
 
     this.tabPanel = this.makeGridsTabPanel();
@@ -118,11 +118,11 @@ function makeDataPanel () {
 /**
  * Make and return a TabPanel with gridPanel in each two tabs.
  */
-function makeGridsTabPanel () {
+function makeGridsTabPanel() {
     return new Ext.TabPanel({
         region: 'center',
         cls: 'grids-tabpanel',
-        autoScrol:'auto',
+        autoScrol: 'auto',
         activeTab: 0,
         items: [
             this.makeProfileGridPanel(),
@@ -135,7 +135,7 @@ function makeGridsTabPanel () {
  * Create the gridPanel (datatable) for selected profile and set his format.
  * @return (object) Ext.grid.GridPanel
  */
-function makeProfileGridPanel () {
+function makeProfileGridPanel() {
     var colModel, gridPanel, width;
     // Set the data store for the table
     this.profileDs = new Ext.data.ArrayStore({
@@ -218,7 +218,7 @@ function makeProfileGridPanel () {
  * Create the gridPanel (datatable) to compare profiles and set his format.
  * @return (object) Ext.grid.GridPanel
  */
-function makeCompareGridPanel () {
+function makeCompareGridPanel() {
     var colModel, gridPanel, width;
     //Set the data store for the table
     this.compareDs = new Ext.data.ArrayStore({
@@ -310,13 +310,13 @@ function makeCompareGridPanel () {
  * Make a footer panel
  * @returns (object) Ext.MapPanel 
  */
-function makeFooter () {
+function makeFooter() {
     return new Ext.Panel({
         region: 'south',
         height: 30,
         cls: 'footer-panel',
         html: '<div class="footer">'
-                + '<p>Wanderwerk V1. Edité le 01.03.13. Créé par <a href="http://ch.linkedin.com/in/benjamingerber" target="_blank" title="Voir le profil LinkedIn" >Benjamin Gerber</a>, supporté par les <a href="http://www.scout-perceval.ch/" target="_blank" title="Voir le site des Scouts Perceval de Moutier">Scouts Perceval de Moutier</a>. Application open source, disponible sur <a href="https://github.com/ger-benjamin/wanderwerk" target="_blank" title="Voir le code source">github</a>. Sous licence <a href="http://creativecommons.org/licenses/by-nc/2.5/ch/deed.fr" target="_blank" title="Voir la licence" >Creative Commons BY-NC</a></p>'
+                + '<p>Wanderwerk V1.02. Edité le 21.10.13. Créé par <a href="http://ch.linkedin.com/in/benjamingerber" target="_blank" title="Voir le profil LinkedIn" >Benjamin Gerber</a>, supporté par les <a href="http://www.scout-perceval.ch/" target="_blank" title="Voir le site des Scouts Perceval de Moutier">Scouts Perceval de Moutier</a>. Application open source, disponible sur <a href="https://github.com/ger-benjamin/wanderwerk" target="_blank" title="Voir le code source">github</a>. Sous licence <a href="http://creativecommons.org/licenses/by-nc/2.5/ch/deed.fr" target="_blank" title="Voir la licence" >Creative Commons BY-NC</a></p>'
                 + '</div>'
     });
 }
@@ -327,7 +327,7 @@ function makeFooter () {
  * hidden" to prevent bugs and improve the process.
  * Create the chart without data.
  */
-function makeChart () {
+function makeChart() {
     this.chartPanel = new Ext.Window({
         width: 600,
         height: 450,
@@ -352,7 +352,7 @@ function makeChart () {
             text: 'Profile altimétrique'
         },
         tooltip: {
-            formatter: function () {
+            formatter: function() {
                 return '<b>' + this.key + '</b><br/>' +
                         this.x + 'km à ' + this.y + 'm';
             }
@@ -360,13 +360,23 @@ function makeChart () {
         xAxis: {
             title: {
                 text: 'Distance [km]'
-            }
+            },
+            plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
         },
         yAxis: {
             title: {
                 text: 'Elévation [m]'
-            }
-        },
-        series: null
+            },
+            plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }],
+            series: null
+        }
     });
 }

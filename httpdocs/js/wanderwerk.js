@@ -17,7 +17,6 @@ var map = null,
         chart = null,
         profiles = [],
         currentProfile = null;
-
 /**
  * First instruction, create panels and add controls.
  */
@@ -29,7 +28,6 @@ Ext.onReady(function() {
     this.bindEvents();
     this.displayWaitMessage(false);
 });
-
 /**
  * Add some controls and layers at the used map
  */
@@ -39,10 +37,8 @@ function addMapsControls() {
 
     //add controls for lines
     this.addLineControls();
-
     //add controls for points
     this.addPointsControls();
-
     //add button to switch controls.
     addButtonsControl();
 }
@@ -54,10 +50,8 @@ function addMapsControls() {
 function addLineControls() {
     //Add the option and the layers wich give the ability to draw lines on the map.
     addDrawOption();
-
     //When a line is updated , call the function "onLineAdded". 
     this.controls.addLine.events.register('featureadded', this, this.onLineAdded);
-
     //Add controls (update) on an created line (select, move)
     //After a line is "dragged", call the function "onDragLineComplete"
     this.controls.updateLine = new OpenLayers.Control.ModifyFeature(this.layers.lines, {
@@ -76,10 +70,8 @@ function addLineControls() {
 function addPointsControls() {
     //Add the option and the layers wich give the ability to create points on the map.
     this.addPointOption();
-
     //When a point is updated , call the function "onPointAdded". 
     this.controls.addPoint.events.register('featureadded', this, this.onPointAdded);
-
     //Add controls (update) on an created point (select, move, delete...)
     //After a point is "dragged", call the function "onDragPointComplete"
     //when a (keyboard) key is pressed, delete the point
@@ -88,7 +80,6 @@ function addPointsControls() {
         'handleKeypress': deletePoint,
         'ctx': this
     }, this);
-
     //Add update control in a button and on the map 
     this.map.addControl(this.controls.updatePoint);
     this.buttons.updatePoint = this.createButton('Modifier les points', 'updatePoint', this.toggleControl, 'updatePoint');
@@ -109,17 +100,14 @@ function addDrawOption() {
     }));
     temporaryRedLine = new OpenLayers.Style();
     temporaryRedLine.addRules(rules);
-
     //Add a stylised line layer, final style is defined by line itself
     this.layers.lines = new OpenLayers.Layer.Vector("Edit line layer", {
         styleMap: new OpenLayers.StyleMap({
             "temporary": temporaryRedLine
         })
     }, this);
-
     //Add layer to the map
     this.map.addLayer(this.layers.lines);
-
     //Create the "draw line" feature's control and add it to the map and to a button.
     this.controls.addLine = new OpenLayers.Control.DrawFeature(this.layers.lines, OpenLayers.Handler.Path);
     this.map.addControl(this.controls.addLine);
@@ -141,10 +129,8 @@ function addPointOption() {
     }));
     finalPoint = new OpenLayers.Style();
     finalPoint.addRules(rules);
-
     temporaryPoint = new OpenLayers.Style();
     finalPoint.addRules(rules);
-
     //Add a stylised line layer
     this.layers.points = new OpenLayers.Layer.Vector("Edit point layer", {
         styleMap: new OpenLayers.StyleMap({
@@ -152,10 +138,8 @@ function addPointOption() {
             "temporary": temporaryPoint
         })
     }, this);
-
     //Add layer to the map
     this.map.addLayer(this.layers.points);
-
     //Create the "create points" feature's control and add it to the map and to a button.
     this.controls.addPoint = new OpenLayers.Control.DrawFeature(this.layers.points, OpenLayers.Handler.Point);
     this.map.addControl(this.controls.addPoint);
@@ -198,7 +182,6 @@ function addButtonsControl() {
     this.buttons.help = this.createButton('Informations et aide', 'help', function() {
         window.open("./pages/informations.html", "help and informations");
     });
-
     //Active first the "addLine" control
     toggleControl(['addLine']);
 }
@@ -301,9 +284,11 @@ function onLineAdded(e) {
     this.profiles.push(profile);
     this.setSelectedLine(profile);
     this.layers.lines.redraw();
-    //Generate automaticaly first and last points, add these points to the point layer
-    this.addPoint(new Point(new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(0, 0))));
-    this.addPoint(new Point(new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(0, 0))));
+    this.addPoints([
+        new Point(new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(0, 0))),
+        new Point(new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(0, 0)))
+    ]);
+    this.generatePoints(profile, 800);
 }
 
 /**
@@ -430,7 +415,6 @@ function setFirstTabTitle() {
     }
     Ext.select('.x-tab-strip .x-tab-strip-text').elements[0].setAttribute('style', 'color:' + color);
     Ext.select('.x-tab-strip .x-tab-strip-text').elements[0].textContent = value;
-
 }
 
 /**
@@ -472,9 +456,37 @@ function setSpeed(value) {
     }, 500, this);
 }
 
+function generatePoints(profile, maxInterval) {
+    var i = 0, interval = 0, nextInterval, vertices, previousPoint, currentPoint, intervalRatio, generatedPoint, generatedPoints = [], newPointX, newPointY;
+    if (!profile.line) {
+        return;
+    }
+    vertices = profile.line.geometry.getVertices();
+    previousPoint = profile.line.geometry.getVertices()[0];
+    while (vertices[i] !== profile.line.geometry.getVertices()[profile.line.geometry.getVertices().length - 1]) {
+        i++;
+        previousPoint = vertices[i - 1];
+        currentPoint = vertices[i];
+        nextInterval = Math.sqrt(Math.pow(currentPoint.x - previousPoint.x, 2) + Math.pow(currentPoint.y - previousPoint.y, 2));
+        if ((nextInterval + interval) > maxInterval) {
+            intervalRatio = (maxInterval - interval) / nextInterval;
+            newPointX = previousPoint.x + (currentPoint.x - previousPoint.x) * intervalRatio;
+            newPointY = previousPoint.y + (currentPoint.y - previousPoint.y) * intervalRatio;
+            generatedPoint = new Point(new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(newPointX, newPointY)));
+            generatedPoint.visibility = false;
+            this.addPoint(generatedPoint);
+            vertices.splice(i, 0, generatedPoint.feature.geometry.getVertices()[0]);
+            interval = 0;
+        } else {
+            interval += nextInterval;
+        }
+    }
+    this.cleanProfile(profile);
+}
+
 /**
- * When a point feature is added, if there is a selected profile, call function 
- * 'addPoint' with given feature. If no profile is selected, display an error 
+ * When a point feature is added (by user), if there is a selected profile, call function 
+ * 'addPoints' with given feature. If no profile is selected, display an error 
  * message.
  * @param {OpenLayers.Feature.Vector} e
  */
@@ -486,25 +498,52 @@ function onPointAdded(e) {
         return;
     }
     this.displayWaitMessage(true);
-    this.addPoint(new Point(point));
+    this.addPoints([new Point(point)]);
     this.displayWaitMessage(false);
 }
 
 /**
- * Add the feature to layer, add point to current profile, call 'sortPoint' of
- * this profile, redraw points layer and remove profile datas. If point is
- *  null, return.
+ * Add given features to layer and current profile. Then, call function "cleanProfile"
+ * If points is null, return.
+ * @param {Array} points Array of OpenLayers.Feature.Vector
+ */
+function addPoints(points) {
+    var i;
+    if (!points) {
+        return;
+    }
+    this.displayWaitMessage(true);
+    for (i = 0; i < points.length; i++) {
+        this.addPoint(points[i])
+    }
+    this.cleanProfile(this.currentProfile);
+    this.displayWaitMessage(false);
+}
+;
+/**
+ * Add the given point to layer and current profile. Don't call function "cleanProfile"
+ * If point is null, return.
  * @param {OpenLayers.Feature.Vector} point
  */
 function addPoint(point) {
     if (!point) {
         return;
     }
-    this.displayWaitMessage(true);
     this.layers.points.addFeatures(point.feature);
     this.currentProfile.addPoint(point);
-    this.currentProfile.sortPoints();
-    this.currentProfile.data = null;
+}
+/**
+ * Call 'sortPoint' functuion of the given profile, redraw points layer and remove
+ *  profile's datas. If point is null, return.
+ * @param {Profile} profile
+ */
+function cleanProfile(profile) {
+    if (!profile) {
+        return;
+    }
+    this.displayWaitMessage(true);
+    profile.sortPoints();
+    profile.data = null;
     this.layers.points.redraw();
     this.displayWaitMessage(false);
 }
@@ -560,13 +599,13 @@ function calculate() {
     if (this.profiles[ajaxObject.noCurrentProfile - 1] && ajaxObject.error === null) {
         this.profiles[ajaxObject.noCurrentProfile - 1].calculateAltitudes(this);
     } else {
-        ajaxObject.reset();
         this.calculateDs(true);
         this.setChart();
         displayWaitMessage(false);
-        if (ajaxObject.error === null) {
-
+        if (ajaxObject.error !== null) {
+            console.log(ajaxObject.error);
         }
+        this.resetAjaxObject(ajaxObject);
     }
 }
 
@@ -577,7 +616,7 @@ function calculate() {
  * @param {Boolean} forceCalculate
  */
 function calculateDs(forceCalculate) {
-    var i;
+    var i, visiblePoints = [];
     if (!this.currentProfile) {
         return;
     }
@@ -587,7 +626,13 @@ function calculateDs(forceCalculate) {
             this.profiles[i].data = this.calculateProfileDs(this.profiles[i]);
         }
     }
-    this.profileDs.loadData(this.currentProfile.data || []);
+    //don't load hidden points
+    for (i = 0; i < this.currentProfile.points.length; i++) {
+        if (this.currentProfile.points[i].visible === true) {
+            visiblePoints.push(this.currentProfile.data[i]);
+        }
+    }
+    this.profileDs.loadData(visiblePoints);
     this.compareDs.loadData(this.calculateCompareDs());
     displayWaitMessage(false);
 }
@@ -701,8 +746,7 @@ function calculateCompareDs() {
  * Use color of profiles to highlight them.
  */
 function setChart() {
-    var i, j, data;
-
+    var i, j, data, color;
     if (!this.currentProfile) {
         this.chart.addSeries({data: []}, true);
         return;
@@ -713,20 +757,19 @@ function setChart() {
     }
     for (i = 0; i < this.profiles.length; i++) {
         data = this.profiles[i].data;
-
         //add serie
         this.chart.addSeries({
             color: this.profiles[i].color,
             data: []
         }, false);
-
         //add points
         for (j = 0; j < data.length; j++) {
+            color = (this.profiles[i].points[j].visible === true) ? this.profiles[i].color : "#888888";
             this.chart.series[i].addPoint({
                 x: parseFloat(data[j][6]),
                 y: parseFloat(data[j][1]),
                 name: data[j][0],
-                color: this.profiles[i].color
+                color: color,
             }, false);
         }
     }
@@ -744,7 +787,6 @@ function setChart() {
 function distanceBetweenTwoPoints(line, point1, point2) {
     var i, points = [], pointA, pointB, pointC = point1, vec1, vec2,
             d1, d2, rec = false, firstLoopFirstAdd = false, distance = 0;
-
     if (!line || !line.geometry || !point1 || !point1.feature || !point2 || !point2.feature) {
         return -1;
     }
@@ -759,12 +801,10 @@ function distanceBetweenTwoPoints(line, point1, point2) {
         }
         pointA = line.geometry.getVertices()[i - 1];
         pointB = line.geometry.getVertices()[i];
-
         vec1 = [(pointB.x - pointA.x), (pointB.y - pointA.y)];
         vec2 = [(pointC.feature.geometry.x - pointA.x), (pointC.feature.geometry.y - pointA.y)];
         d1 = vec1[0] * vec2[1];
         d2 = vec1[1] * vec2[0];
-
         if (Math.round(d1) === Math.round(d2)) { //Math.floor because OpenLayers generates differences of some micro metre
             if (!rec) {
                 rec = true;

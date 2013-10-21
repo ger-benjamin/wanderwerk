@@ -1,5 +1,11 @@
 This file relate changes in each version of Wanderwerk
 
+Version 1.02
+============================
+Date: 21/10/13
+Authors: Benjamin Gerber
+Changes: Generate automatically some point for altitudes. Hide these points
+
 Version 1.01
 ============================
 Date: 09/09/13

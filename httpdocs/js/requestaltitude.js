@@ -15,15 +15,26 @@
  *  all points.
  * @type object
  */
-var ajaxObject = {
-    workEnded: false,
-    fn: null,
-    ctx: null,
-    arrayOfPoints: null,
-    noCurrentProfile: 0,
-    noCurrentPoints: 0,
-    error: null
-};
+var ajaxObject = resetAjaxObject();
+
+/**
+ * reset the ajaxObject, see variable ajaxObject
+ * @param {Object} ajaxObj
+ * @returns {Objet} ajaxObject
+ */
+function resetAjaxObject(ajaxObj) {
+    if (!ajaxObj) {
+        ajaxObj = {};
+    }
+    ajaxObj.workEnded = false;
+    ajaxObj.fn = null;
+    ajaxObj.ctx = null;
+    ajaxObj.arrayOfPoints = null;
+    ajaxObj.noCurrentProfile = 0;
+    ajaxObj.noCurrentPoints = 0;
+    ajaxObj.error = null;
+    return ajaxObj;
+}
 
 /**
  * Fill ajaxObject's 'arrayOfPoints', fn and ctx of fn (fonction) befor call
@@ -89,3 +100,4 @@ function requestAltitudes() {
         }
     });
 }
+;

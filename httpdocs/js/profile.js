@@ -65,8 +65,11 @@ Profile.prototype.addPoint = function(point) {
         type = 'lastPoint';
     }
     point.setType(type);
+    point.setVisibility(point.visibility);
     this.points.push(point);
-    this.replacePoint(point);
+    if(point.visibility !== false){
+        this.replacePoint(point);
+    }
 };
 
 /**

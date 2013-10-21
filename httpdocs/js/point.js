@@ -7,19 +7,19 @@
  */
 /**
  * Instanciate an object Point.
- * Point is a OpenLayers vector's feature (Type point) with name, altitude and
- * type  (First point, last point, normale, etc).
+ * Point is a OpenLayers vector's feature (Type Point) with name, altitude and
+ * type  (First point, last point, normale, etc) and visibility.
  * By default, altitude is null, name is the currents coordonnates,
- * feature is null and type is 'normal';
+ * feature is null, type is 'normal' and visibility is at true;
  * @param {OpenLayers.Feature.Vector} point
- * @param {String} type
  */
-function Point(point, type) {
+function Point(point) {
     this.feature = point || null;
     this.isAutoName = true;
-    this.setName(null);
-    this.setType(type);
+    this.setName();
+    this.setType();
     this.altitude = null;
+    this.setVisibility();
 }
 
 /**
@@ -92,6 +92,23 @@ Point.prototype.setAltitude = function(altitude) {
         return true;
     }
     this.altitude = altitude;
+};
+
+/**
+ * Set visibility of the point (true or false)
+ * @param {Boolean} visibility
+ */
+Point.prototype.setVisibility = function(visibility) {
+    var style = null;
+    if (visibility !== false) {
+        this.visible = true;
+    } else {
+        this.visible = false;
+        style = {visibility: 'hidden'};
+    }
+    if (this.feature) {
+        this.feature.style = style;
+    }
 };
 
 /**
