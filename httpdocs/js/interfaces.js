@@ -10,18 +10,21 @@
  */
 function makePanels() {
     this.makeChart();
+
+    var header = this.makeHeader(),
+            mapPanel = this.makeMapPanel(),
+            dataPanel = this.makeDataPanel();
+
     //Arrange and display panels
-    new Ext.Viewport({
+    Ext.create('Ext.container.Viewport', {
         layout: 'border',
-        rendreTo: Ext.getBody(),
         items: [
-            this.makeHeader(),
-            this.makeMapPanel(),
-            this.makeDataPanel()
+            header,
+            mapPanel,
+            dataPanel
         ]
     });
     this.setLinesSelector(true);
-    this.tabPanel.setHeight(271); //@fix me
 }
 
 /**
@@ -34,22 +37,24 @@ function makeHeader() {
                 <p><label for="lineSelector">Tracé : </label></p>\n\
                 <p><select id="lineSelector" style="background-color:#000000" type="text" name="lineSelector"></select></p>\n\
             </div>'; //@fixme because EXTJS is too bad to create node easily :-(
-    return new Ext.Panel({
+    return Ext.create('Ext.panel.Panel', {
         region: 'north',
-        height: 75,
-        cls: 'header-panel',
+        xtype: 'panel',
+        id: 'ww_header-panel',
         items: [
-            new Ext.Panel({
+            Ext.create('Ext.panel.Panel', {
                 region: 'north',
+                xtype: 'panel',
                 height: 25,
                 html: '<p>Wanderwerk : Créez votre profil de marche</p>',
-                cls: 'info-panel'
+                id: 'ww_info-panel'
             }),
-            new Ext.Panel({
+            Ext.create('Ext.panel.Panel', {
                 region: 'center',
-                height: 50,
+                xtype: 'panel',
+                height: 45,
                 html: '<div class="buttons"></div>' + tempHTML,
-                cls: 'toolbar'
+                id: 'ww_toolbar'
             })
         ]
     });
@@ -60,24 +65,11 @@ function makeHeader() {
  * @return (object) GeoExt.MapPanel.
  */
 function makeMapPanel() {
-    var apiST, mapPanel;
-    apiST = new GeoAdmin.API({lang: 'fr'});
-
-    this.map = apiST.createMap({
-        layers: "ch.swisstopo.pixelkarte-farbe, map",
-        easting: 600000,
-        northing: 200000
-    });
-
-    mapPanel = new GeoExt.MapPanel({
+    return Ext.create('Ext.panel.Panel', {
         region: 'center',
-        split: false,
-        cls: 'map-panel',
-        map: this.map,
-        zoom: 4
+        xtype: 'panel',
+        id: 'ww_map-panel'
     });
-
-    return mapPanel;
 }
 
 /**
@@ -85,11 +77,12 @@ function makeMapPanel() {
  * @return (object) Ext.MapPanel 
  */
 function makeDataPanel() {
-    var dataPanel,
-            panelProperties = new Ext.Panel({
+    var dataPanel, footer = this.makeFooter(),
+            panelProperties = Ext.create('Ext.panel.Panel', {
         region: 'north',
-        height: 30,
-        cls: 'properties-panel',
+        xtype: 'panel',
+        height: 32,
+        id: 'ww_properties-panel',
         html: '<div class="properties">'
                 + '<div class="left"><p class="label"><label for="speed">Facteur de vitesse(kme/h) : </label></p><p><input id="speed" class="speed" type="number" name="speed" value="4" /></p></div>'
                 + '<div class="right" style="display:none;"><p class="label"><label for="maps">Cartes topographiques : </label></p><p><input id="maps" type="text" name="maps" /></p></div>'
@@ -98,17 +91,19 @@ function makeDataPanel() {
 
     this.tabPanel = this.makeGridsTabPanel();
 
-    dataPanel = new Ext.Panel({
-        title: 'Informations',
+
+
+    dataPanel = Ext.create('Ext.panel.Panel', {
         layout: 'border',
+        xtype: 'panel',
         region: 'south',
-        height: 300,
+        height: 400,
         split: true,
-        cls: 'data-panel',
+        id: 'ww_datas-panel',
         items: [
             panelProperties,
             this.tabPanel,
-            this.makeFooter()
+            footer
         ]
     });
 
@@ -119,16 +114,23 @@ function makeDataPanel() {
  * Make and return a TabPanel with gridPanel in each two tabs.
  */
 function makeGridsTabPanel() {
-    return new Ext.TabPanel({
-        region: 'center',
-        cls: 'grids-tabpanel',
+    var gridPanel = Ext.create('Ext.tab.Panel', {
+        id: 'ww_grids-tabpanel',
         autoScrol: 'auto',
+        layout: 'fit',
         activeTab: 0,
         items: [
             this.makeProfileGridPanel(),
             this.makeCompareGridPanel()
         ]
     });
+    return Ext.create('Ext.panel.Panel', {
+        layout: 'fit',
+        region: 'center',
+        items: [
+            gridPanel
+        ]
+    })
 }
 
 /**
@@ -136,77 +138,68 @@ function makeGridsTabPanel() {
  * @return (object) Ext.grid.GridPanel
  */
 function makeProfileGridPanel() {
-    var colModel, gridPanel, width;
+    var colModel, gridPanel;
     // Set the data store for the table
-    this.profileDs = new Ext.data.ArrayStore({
+    this.profileDs = Ext.create('Ext.data.Store', {
+        storeId: 'profileStore',
         fields: [{
                 name: 'name'
             }, {
-                name: 'alt',
-                type: 'int'
+                name: 'alt'
             }, {
-                name: 'deniv100',
-                type: 'float'
+                name: 'deniv100'
             }, {
-                name: 'km',
-                type: 'float'
+                name: 'km'
             }, {
-                name: 'kme',
-                type: 'float'
+                name: 'kme'
             }, {
                 name: 'tmp'
             }, {
-                name: 'kmTotal',
-                type: 'float'
+                name: 'kmTotal'
             }, {
-                name: 'kmeTotal',
-                type: 'float'
+                name: 'kmeTotal'
             }, {
                 name: 'tmpTot'
             }]
     });
-    //Calcul width manually because ExtJS seem not offert this feature.
-    width = Math.floor((document.body.offsetWidth - 21) / this.profileDs.fields.length);
-    // create the colum Manager
-    colModel = new Ext.grid.ColumnModel({
-        defaults: {
-            width: width
-        }, columns: [{
-                header: 'Nom',
-                dataIndex: 'name'
-            }, {
-                header: 'Altitude [m]',
-                dataIndex: 'alt'
-            }, {
-                header: 'Dénivelé [m]',
-                dataIndex: 'deniv100'
-            }, {
-                header: 'Distance [km]',
-                dataIndex: 'km'
-            }, {
-                header: 'Km-efforts [km]',
-                dataIndex: 'kme'
-            }, {
-                header: 'Temps [h:m]',
-                dataIndex: 'tmp'
-            }, {
-                header: 'Distance Totale [km]',
-                dataIndex: 'kmTotal'
-            }, {
-                header: 'Km-efforts totaux [km]',
-                dataIndex: 'kmeTotal'
-            }, {
-                header: 'Temps Total [h:m]',
-                dataIndex: 'tmpTot'
-            }
-        ]});
+    // create the colum Model
+    colModel = [{
+            header: 'Nom',
+            dataIndex: 'name'
+        }, {
+            header: 'Altitude [m]',
+            dataIndex: 'alt'
+        }, {
+            header: 'Dénivelé [m]',
+            dataIndex: 'deniv100'
+        }, {
+            header: 'Distance [km]',
+            dataIndex: 'km'
+        }, {
+            header: 'Km-efforts [km]',
+            dataIndex: 'kme'
+        }, {
+            header: 'Temps [h:m]',
+            dataIndex: 'tmp'
+        }, {
+            header: 'Distance Totale [km]',
+            dataIndex: 'kmTotal'
+        }, {
+            header: 'Km-efforts totaux [km]',
+            dataIndex: 'kmeTotal'
+        }, {
+            header: 'Temps Total [h:m]',
+            dataIndex: 'tmpTot'
+        }
+    ];
     //Create the GridPanel with the previously created column model.
-    gridPanel = new Ext.grid.GridPanel({
+    gridPanel = Ext.create('Ext.grid.Panel', {
         title: 'Tracé actif',
-        store: this.profileDs,
-        colModel: colModel,
-        trackMouseOver: false,
-        cls: 'grid-panel',
+        store: Ext.data.StoreManager.lookup('profileStore'),
+        columns: colModel,
+        cls: 'ww_grid-panel',
+        id: 'ww_profile-grid-panel',
+        forceFit: true,
         viewConfig: {
             emptyText: "Vous devez calculer au moins un profile pour l'afficher."
         }
@@ -221,30 +214,24 @@ function makeProfileGridPanel() {
 function makeCompareGridPanel() {
     var colModel, gridPanel, width;
     //Set the data store for the table
-    this.compareDs = new Ext.data.ArrayStore({
+    this.compareDs = Ext.create('Ext.data.Store', {
+        storeId: 'compareStore',
         fields: [{
                 name: 'name'
             }, {
-                name: 'km',
-                type: 'float'
+                name: 'km'
             }, {
-                name: 'kme',
-                type: 'float'
+                name: 'kme'
             }, {
-                name: 'heightMin',
-                type: 'int'
+                name: 'heightMin'
             }, {
-                name: 'heightMax',
-                type: 'int'
+                name: 'heightMax'
             }, {
-                name: 'sumDescend',
-                type: 'int'
+                name: 'sumDescend'
             }, {
-                name: 'sumAscend',
-                type: 'int'
+                name: 'sumAscend'
             }, {
-                name: 'pauses',
-                type: 'int'
+                name: 'pauses'
             }, {
                 name: 'tmp'
             }, {
@@ -252,53 +239,52 @@ function makeCompareGridPanel() {
             }]
     });
     //Calcul width manually because ExtJS seem not offert this feature.
-    width = Math.floor((document.body.offsetWidth - 21) / (this.compareDs.fields.length - 2));
-    //Create the colum Manager
-    colModel = new Ext.grid.ColumnModel({
-        defaults: {
-            width: width,
-            sortable: true
-        },
-        columns: [{
-                header: 'Nom',
-                dataIndex: 'name'
-            }, {
-                header: 'Km totaux [km]',
-                dataIndex: 'km'
-            }, {
-                header: 'Km-efforts totaux [km]',
-                dataIndex: 'kme'
-            }, {
-                header: 'Altitude min [m]',
-                dataIndex: 'heightMin'
-            }, {
-                header: 'Altitude max [m]',
-                dataIndex: 'heightMax'
-            }, {
-                header: 'Descente totale [m]',
-                dataIndex: 'sumDescend'
-            }, {
-                header: 'Montée totale [m]',
-                dataIndex: 'sumAscend'
-            }, /* {
-             header: 'Nombre de pauses',
-             dataIndex: 'pauses'
-             }, */ {
-                header: 'Temps [h:m]',
-                dataIndex: 'tmp'
-            }/*, {
-             header: 'Temps avec pauses [h:m]',
-             dataIndex: 'tmpWithPauses'
-             }*/
-        ]});
+    width = Math.floor((document.body.offsetWidth - 21) / (this.compareDs.data.length - 2));
+    //Create the colum Model
+    colModel = [{
+            header: 'Nom',
+            dataIndex: 'name'
+        }, {
+            header: 'Km totaux [km]',
+            dataIndex: 'km'
+        }, {
+            header: 'Km-efforts totaux [km]',
+            dataIndex: 'kme'
+        }, {
+            header: 'Altitude min [m]',
+            dataIndex: 'heightMin'
+        }, {
+            header: 'Altitude max [m]',
+            dataIndex: 'heightMax'
+        }, {
+            header: 'Descente totale [m]',
+            dataIndex: 'sumDescend'
+        }, {
+            header: 'Montée totale [m]',
+            dataIndex: 'sumAscend'
+        }, /* {
+         header: 'Nombre de pauses',
+         dataIndex: 'pauses'
+         }, */ {
+            header: 'Temps [h:m]',
+            dataIndex: 'tmp'
+        }/*, {
+         header: 'Temps avec pauses [h:m]',
+         dataIndex: 'tmpWithPauses'
+         }*/
+    ];
 
     //Create the GridPanel with the previously created column model.
-    gridPanel = new Ext.grid.GridPanel({
+    gridPanel = Ext.create('Ext.grid.Panel', {
         title: 'Comparatif des tracés',
-        store: this.compareDs,
-        colModel: colModel,
-        trackMouseOver: false,
-        cls: 'grid-panel',
+        store: Ext.data.StoreManager.lookup('compareStore'),
+        columns: colModel,
+        cls: 'ww_grid-panel',
+        id: 'ww_compare-grid-panel',
+        forceFit: true,
+        defaults: {
+            sortable: true
+        },
         viewConfig: {
             emptyText: "Vous devez calculer au moins un profile afficher une comparaison."
         }
@@ -311,10 +297,11 @@ function makeCompareGridPanel() {
  * @returns (object) Ext.MapPanel 
  */
 function makeFooter() {
-    return new Ext.Panel({
+    return Ext.create('Ext.panel.Panel', {
         region: 'south',
-        height: 30,
-        cls: 'footer-panel',
+        xtype: 'panel',
+        height: 25,
+        id: 'ww_footer-panel',
         html: '<div class="footer">'
                 + '<p>Wanderwerk V1.02. Edité le 21.10.13. Créé par <a href="http://ch.linkedin.com/in/benjamingerber" target="_blank" title="Voir le profil LinkedIn" >Benjamin Gerber</a>, supporté par les <a href="http://www.scout-perceval.ch/" target="_blank" title="Voir le site des Scouts Perceval de Moutier">Scouts Perceval de Moutier</a>. Application open source, disponible sur <a href="https://github.com/ger-benjamin/wanderwerk" target="_blank" title="Voir le code source">github</a>. Sous licence <a href="http://creativecommons.org/licenses/by-nc/2.5/ch/deed.fr" target="_blank" title="Voir la licence" >Creative Commons BY-NC</a></p>'
                 + '</div>'
@@ -328,18 +315,18 @@ function makeFooter() {
  * Create the chart without data.
  */
 function makeChart() {
-    this.chartPanel = new Ext.Window({
+    this.chartPanel = Ext.create('Ext.window.Window', {
         width: 600,
         height: 450,
         title: "Profil altimetrique",
         html: '<div id="chartcontainer"></div>',
-        cls: 'chart-panel',
+        id: 'ww_chart-panel',
         closable: true,
         closeAction: 'hide'
     });
 
-    chartPanel.show();
-    chartPanel.hide();
+    this.chartPanel.show();
+    this.chartPanel.hide();
 
     this.chart = new Highcharts.Chart({
         chart: {

@@ -35,17 +35,15 @@ function Point(point) {
  * @returns {Boolean} (true if point is moved, false else)
  */
 Point.prototype.move = function(x, y) {
-    var pos;
     if (!this.feature || typeof x !== "number" || typeof y !== "number") {
         return false;
     }
-    pos = new OpenLayers.LonLat(x, y);
     //Reset altitude if mouvement is > 30 meters. Because GeoNames (altitudes'd suppliers)
     //Work only with metrics systems 
-    if (Math.abs(this.feature.geometry.x - pos.lon) >= 30 || Math.abs(this.feature.geometry.y - pos.lat) >= 30) {
+    if (Math.abs(this.feature.getGeometry().getCoordinates()[0] - x) >= 30 || Math.abs(this.feature.getGeometry().getCoordinates()[1] - y) >= 30) {
         this.altitude = null;
     }
-    this.feature.move(pos);
+    this.feature.getGeometry().setCoordinates([Math.round(x), Math.round(y)]);
     this.setName();
     return true;
 };
@@ -61,7 +59,7 @@ Point.prototype.setName = function(name) {
         this.name = name;
         this.isAutoName = false;
     } else if (this.feature && this.isAutoName) {
-        this.name = Math.round(this.feature.geometry.x) + ", " + Math.round(this.feature.geometry.y);
+        this.name = Math.round(this.feature.getGeometry().getCoordinates()[0]) + ", " + Math.round(this.feature.getGeometry().getCoordinates()[1]);
     }
 };
 

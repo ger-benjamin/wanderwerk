@@ -30,21 +30,25 @@ function Profile(line, color, name) {
  * @param {String} color
  */
 Profile.prototype.setColor = function(highlight, color) {
-    var style;
+    var style, strockWidth;
     if (color && typeof color === 'string') {
         this.color = color;
     }
     if (!this.line || !this.color) {
         return;
     }
-    style = OpenLayers.Util.applyDefaults(style, OpenLayers.Feature.Vector.style['default']);
-    style.strokeColor = this.color;
     if (highlight) {
-        style.strokeWidth = 5;
+        strockWidth = 5;
     } else {
-        style.strokeWidth = 2;
+        strockWidth = 2;
     }
-    this.line.style = style;
+    style = [new ol.style.Stroke({
+            color: this.color,
+            width: strockWidth
+        })];
+    //this.line.setSymbolizers(style);
+    //hack to force redraw feature
+    this.line.dispatchEvent(new ol.source.VectorEvent(ol.source.VectorEventType.ADDFEATURE, this.line, this.line.getGeometry().getExtent()));  
 };
 
 /**
@@ -67,7 +71,7 @@ Profile.prototype.addPoint = function(point) {
     point.setType(type);
     point.setVisibility(point.visibility);
     this.points.push(point);
-    if(point.visibility !== false){
+    if (point.visibility !== false) {
         this.replacePoint(point);
     }
 };
@@ -125,26 +129,23 @@ Profile.prototype.replaceAllPoints = function() {
  * @returns {Boolean} (true if point is replaced, false else)
  */
 Profile.prototype.replacePoint = function(point) {
-    var distanceLineToPoint, posX, posY, linelastPoint = this.line.geometry.getVertices().length - 1;
-    if (point instanceof OpenLayers.Feature.Vector) {
+    var distanceLineToPoint, posX, posY, linelastPoint = this.line.getGeometry().getCoordinates().length - 1;
+    if (point instanceof ol.Feature) {
         point = this.getPointInProfile(point).point;
     }
     if (!point) {
         return false;
     }
     if (point.type === 'firstPoint') {
-        posX = this.line.geometry.getVertices()[0].x;
-        posY = this.line.geometry.getVertices()[0].y;
+        posX = this.line.getGeometry().getCoordinates()[0][0];
+        posY = this.line.getGeometry().getCoordinates()[0][1];
     } else if (point.type === 'lastPoint') {
-        posX = this.line.geometry.getVertices()[linelastPoint].x;
-        posY = this.line.geometry.getVertices()[linelastPoint].y;
+        posX = this.line.getGeometry().getCoordinates()[linelastPoint][0];
+        posY = this.line.getGeometry().getCoordinates()[linelastPoint][1];
     } else {
-        distanceLineToPoint = point.feature.geometry.distanceTo(this.line.geometry, {
-            details: true,
-            edge: true
-        });
-        posX = distanceLineToPoint.x1;
-        posY = distanceLineToPoint.y1;
+        distanceLineToPoint = this.line.getGeometry().getClosestPoint(point.feature.getGeometry().getCoordinates());
+        posX = distanceLineToPoint[0];
+        posY = distanceLineToPoint[1];
     }
     point.move(posX, posY);
     return true;
@@ -158,15 +159,15 @@ Profile.prototype.sortPoints = function() {
             pointC, vec1, vec2, d1, d2, temp, isAlreadyAdded, newPoints = [];
 
     //Create an array with all points in one segment of the line
-    for (i = 1; i < this.line.geometry.getVertices().length; i++) {
+    for (i = 1; i < this.line.getGeometry().getCoordinates().length; i++) {
         pointsInLine.length = 0;
         pointsPos.length = 0;
-        pointA = this.line.geometry.getVertices()[i - 1];
-        pointB = this.line.geometry.getVertices()[i];
+        pointA = this.line.getGeometry().getCoordinates()[i - 1];
+        pointB = this.line.getGeometry().getCoordinates()[i];
         for (j = 0; j < this.points.length; j++) {
-            pointC = this.points[j].feature.geometry;
-            vec1 = [(pointB.x - pointA.x), (pointB.y - pointA.y)];
-            vec2 = [(pointC.x - pointA.x), (pointC.y - pointA.y)];
+            pointC = this.points[j].feature.getGeometry().getCoordinates();
+            vec1 = [(pointB[0] - pointA[0]), (pointB[1] - pointA[1])];
+            vec2 = [(pointC[0] - pointA[0]), (pointC[1] - pointA[1])];
             d1 = vec1[0] * vec2[1];
             d2 = vec1[1] * vec2[0];
             if (Math.round(d1) === Math.round(d2)) { //Math.floor because OpenLayers generates differences of some micro metre
@@ -179,10 +180,10 @@ Profile.prototype.sortPoints = function() {
             this.points.splice(pointsPos[j] - j, 1); //-j because position change when this remove a previous element
         }
         //Ordre each points on the segment of the line
-        //(this Algorithme is nammed "Bubble sort".
+        //(this Algorithme is nammed "Bubble sort").
         for (j = (pointsInLine.length - 1); j >= 0; j--) {
             for (k = pointsInLine.length - 1; k >= 0; k--) {
-                if (pointA.distanceTo(pointsInLine[k].feature.geometry) < pointA.distanceTo(pointsInLine[j].feature.geometry)) {
+                if (distanceBetweenTwoPoints(pointA, pointsInLine[k]) < distanceBetweenTwoPoints(pointA, pointsInLine[j])) {
                     temp = pointsInLine[k];
                     pointsInLine[k] = pointsInLine[j];
                     pointsInLine[j] = temp;

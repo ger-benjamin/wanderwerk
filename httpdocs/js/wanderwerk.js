@@ -23,11 +23,26 @@ var map = null,
 Ext.onReady(function() {
     this.displayWaitMessage(true);
     this.makePanels(); //see ./interfaces.js
+    this.initMap();
     this.setChart();
     this.addMapsControls();
     this.bindEvents();
     this.displayWaitMessage(false);
 });
+
+function initMap() {
+    var layer = ga.layer.create('ch.swisstopo.pixelkarte-farbe');
+
+    this.map = new ga.Map({
+        target: 'ww_map-panel-innerCt',
+        layers: [layer],
+        view: new ol.View2D({
+            resolution: 500,
+            center: [670000, 160000]
+        })
+    });
+}
+
 /**
  * Add some controls and layers at the used map
  */
@@ -51,16 +66,66 @@ function addLineControls() {
     //Add the option and the layers wich give the ability to draw lines on the map.
     addDrawOption();
     //When a line is updated , call the function "onLineAdded". 
-    this.controls.addLine.events.register('featureadded', this, this.onLineAdded);
+    this.layers.lines.getSource().addEventListener('addfeature', this.onLineAdded, false, this);
     //Add controls (update) on an created line (select, move)
     //After a line is "dragged", call the function "onDragLineComplete"
-    this.controls.updateLine = new OpenLayers.Control.ModifyFeature(this.layers.lines, {
-        'dragComplete': onDragLineComplete,
-        'ctx': this
-    }, this);
-    //Add update control in a button and on the map 
-    this.map.addControl(this.controls.updateLine);
-    this.buttons.updateLine = this.createButton('Modifier les tracés', 'updateLine', this.toggleControl, 'updateLine');
+//    this.controls.updateLine = new OpenLayers.Control.ModifyFeature(this.layers.lines, {
+//        'dragComplete': onDragLineComplete,
+//        'ctx': this
+//    }, this);
+//    //Add update control in a button and on the map 
+//    this.map.addControl(this.controls.updateLine);
+//    this.buttons.updateLine = this.createButton('Modifier les tracés', 'updateLine', this.toggleControl, 'updateLine');
+}
+/**
+ * Add the option and the layer wich allow to draw lines.
+ * Also set the style of the line.
+ */
+function addDrawOption() {
+    var source = new ol.source.Vector();
+    this.layers.lines = getBasicVectorLayer(source);
+
+    //Add layer to the map
+    this.map.addLayer(this.layers.lines);
+    //Create the "draw line" feature's control and add it to the map and to a button.
+    this.controls.addLine = new ol.interaction.Draw({
+        source: source,
+        type: 'LineString'
+    });
+    this.map.addInteraction(this.controls.addLine);
+
+    this.buttons.addLine = this.createButton('Ajouter des tracés', 'addLine', this.toggleControl, 'addLine');
+}
+
+function getBasicVectorLayer(source, supStyle) {
+    var i = 0, styleArray;
+    if (!supStyle || !supStyle.lenght) {
+        supStyle = [];
+    }
+
+    styleArray = [
+        new ol.style.Style({
+            stroke: new ol.style.Stroke({
+                color: '#FF0000',
+                width: 2
+            }),
+            image: new ol.style.Circle({
+                radius: 7,
+                fill: new ol.style.Fill({
+                    color: '#00FF00'
+                })
+            })
+        }),
+    ];
+
+    for (i = 0; i < supStyle; i++) {
+        styleArray.push(supStyle[i]);
+    }
+
+    return  new ol.layer.Vector({
+        source: source,
+        style: styleArray[0]
+    });
 }
 
 /**
@@ -71,47 +136,18 @@ function addPointsControls() {
     //Add the option and the layers wich give the ability to create points on the map.
     this.addPointOption();
     //When a point is updated , call the function "onPointAdded". 
-    this.controls.addPoint.events.register('featureadded', this, this.onPointAdded);
+    this.layers.points.getSource().addEventListener('addfeature', this.onPointAdded, false, this);
     //Add controls (update) on an created point (select, move, delete...)
     //After a point is "dragged", call the function "onDragPointComplete"
     //when a (keyboard) key is pressed, delete the point
-    this.controls.updatePoint = new OpenLayers.Control.ModifyFeature(this.layers.points, {
-        'dragComplete': onDragPointComplete,
-        'handleKeypress': deletePoint,
-        'ctx': this
-    }, this);
-    //Add update control in a button and on the map 
-    this.map.addControl(this.controls.updatePoint);
-    this.buttons.updatePoint = this.createButton('Modifier les points', 'updatePoint', this.toggleControl, 'updatePoint');
-}
-
-/**
- * Add the option and the layer wich allow to draw lines.
- * Also set the style of the line.
- */
-function addDrawOption() {
-    var lineSymbolizer, rules = [], temporaryRedLine, finalRedLine;
-    lineSymbolizer = new OpenLayers.Symbolizer.Line({
-        strokeWidth: 3,
-        strokeColor: "#ff0088"
-    });
-    rules.push(new OpenLayers.Rule({
-        symbolizer: lineSymbolizer
-    }));
-    temporaryRedLine = new OpenLayers.Style();
-    temporaryRedLine.addRules(rules);
-    //Add a stylised line layer, final style is defined by line itself
-    this.layers.lines = new OpenLayers.Layer.Vector("Edit line layer", {
-        styleMap: new OpenLayers.StyleMap({
-            "temporary": temporaryRedLine
-        })
-    }, this);
-    //Add layer to the map
-    this.map.addLayer(this.layers.lines);
-    //Create the "draw line" feature's control and add it to the map and to a button.
-    this.controls.addLine = new OpenLayers.Control.DrawFeature(this.layers.lines, OpenLayers.Handler.Path);
-    this.map.addControl(this.controls.addLine);
-    this.buttons.addLine = this.createButton('Ajouter des tracés', 'addLine', this.toggleControl, 'addLine');
+//    this.controls.updatePoint = new OpenLayers.Control.ModifyFeature(this.layers.points, {
+//        'dragComplete': onDragPointComplete,
+//        'handleKeypress': deletePoint,
+//        'ctx': this
+//    }, this);
+//    //Add update control in a button and on the map 
+//    this.map.addControl(this.controls.updatePoint);
+//    this.buttons.updatePoint = this.createButton('Modifier les points', 'updatePoint', this.toggleControl, 'updatePoint');
 }
 
 /**
@@ -119,30 +155,18 @@ function addDrawOption() {
  * Also set the style of the points.
  */
 function addPointOption() {
-    var pointSymbolizer, rules = [], temporaryPoint, finalPoint;
-    pointSymbolizer = new OpenLayers.Symbolizer.Point({
-        strokeWidth: 1,
-        strokeColor: "#ff0000"
-    });
-    rules.push(new OpenLayers.Rule({
-        symbolizer: pointSymbolizer
-    }));
-    finalPoint = new OpenLayers.Style();
-    finalPoint.addRules(rules);
-    temporaryPoint = new OpenLayers.Style();
-    finalPoint.addRules(rules);
-    //Add a stylised line layer
-    this.layers.points = new OpenLayers.Layer.Vector("Edit point layer", {
-        styleMap: new OpenLayers.StyleMap({
-            "default": finalPoint,
-            "temporary": temporaryPoint
-        })
-    }, this);
+    var source = new ol.source.Vector();
+    this.layers.points = getBasicVectorLayer(source);
     //Add layer to the map
     this.map.addLayer(this.layers.points);
-    //Create the "create points" feature's control and add it to the map and to a button.
-    this.controls.addPoint = new OpenLayers.Control.DrawFeature(this.layers.points, OpenLayers.Handler.Point);
-    this.map.addControl(this.controls.addPoint);
+
+    //Create the "draw line" feature's control and add it to the map and to a button.
+    this.controls.addPoint = new ol.interaction.Draw({
+        source: source,
+        type: 'Point'
+    });
+    this.map.addInteraction(this.controls.addPoint);
+
     this.buttons.addPoint = this.createButton('Ajouter des points', 'addPoint', this.toggleControl, 'addPoint');
 }
 
@@ -156,7 +180,7 @@ function addPointOption() {
  */
 function createButton(tooltip, cls, fn) {
     var arg = arguments;
-    var button = new Ext.Button({
+    var button = Ext.create('Ext.Button', {
         tooltip: tooltip,
         tooltipType: 'title',
         cls: cls,
@@ -164,7 +188,7 @@ function createButton(tooltip, cls, fn) {
             fn(arg);
         }
     });
-    button.render(Ext.DomQuery.selectNode('.toolbar .buttons'));
+    button.render(Ext.DomQuery.selectNode('#ww_toolbar .buttons'));
     return button;
 }
 
@@ -193,14 +217,14 @@ function addButtonsControl() {
 function toggleControl(args) {
     var k;
     for (k in this.controls) {
-        this.controls[k].deactivate();
+        this.map.removeInteraction(this.controls[k]);
     }
     for (k in this.buttons) {
-        this.buttons[k].removeClass('selected');
+        this.buttons[k].removeCls('selected');
     }
     for (k = 0; k < args.length; k++) {
         if (this.controls[args[k]]) {
-            this.controls[args[k]].activate();
+            this.map.addInteraction(this.controls[args[k]]);
         }
         if (this.buttons[args[k]]) {
             this.buttons[args[k]].addClass('selected');
@@ -244,7 +268,7 @@ function toggleChartVisibility() {
  */
 function displayWaitMessage(display) {
     if (display) {
-        Ext.MessageBox.wait("Veuillez patienter", 'Travail en cours');
+        Ext.Msg.wait("Veuillez patienter", 'Travail en cours');
     }
     else {
         Ext.Msg.hide();
@@ -280,15 +304,24 @@ function eraseAll() {
  * @param {OpenLayers.Feature.Vector} e
  */
 function onLineAdded(e) {
-    var profile = new Profile(e.feature, this.generateColor(this.profiles.length + 1), 'Tracé ' + (this.profiles.length + 1));
+    var profile = new Profile(e.feature, this.generateColor(this.profiles.length + 1), 'Tracé ' + (this.profiles.length + 1)),
+            firstPoint, lastPoint;
     this.profiles.push(profile);
     this.setSelectedLine(profile);
-    this.layers.lines.redraw();
+
+    firstPoint = new ol.Feature();
+    firstPoint.setGeometry(new ol.geom.Point([0, 0]));
+
+    lastPoint = new ol.Feature();
+    lastPoint.setGeometry(new ol.geom.Point([0, 0]));
+
+    this.layers.points.getSource().addFeatures([firstPoint, lastPoint]);
+
     this.addPoints([
-        new Point(new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(0, 0))),
-        new Point(new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(0, 0)))
+        new Point(firstPoint),
+        new Point(lastPoint)
     ]);
-    this.generatePoints(profile, 800);
+//    this.generatePoints(profile, 800);
 }
 
 /**
@@ -361,7 +394,6 @@ function setSelectedLine(profileToSelect) {
         this.profiles[i].setColor(false);
     }
     this.currentProfile.setColor(true);
-    this.layers.lines.redraw();
     if (this.currentProfile.data) {
         this.profileDs.loadData(this.currentProfile.data);
     } else {
@@ -378,19 +410,19 @@ function setSelectedLine(profileToSelect) {
  */
 function setLinesSelector(reset) {
     var i, value = 'default',
-            linesSelector = Ext.DomQuery.selectNode('.toolbar .lineSelector select');
+            linesSelector = Ext.DomQuery.selectNode('#ww_toolbar .lineSelector select');
     while (linesSelector.length > 0) {
         linesSelector.removeChild(linesSelector[0]);
     }
     if (reset) {
         this.addLinesSelectorOption(value, 'Créez un tracé d\'abord.', '#000000');
-        Ext.DomQuery.selectNode('.toolbar .lineSelector select').setAttribute('style', 'color:#000000');
+        Ext.DomQuery.selectNode('#ww_toolbar .lineSelector select').setAttribute('style', 'color:#000000');
     } else {
         for (i = 0; i < this.profiles.length; i++) {
             if (this.profiles[i] === this.currentProfile) {
                 value = i;
                 if (this.currentProfile.color) {
-                    Ext.DomQuery.selectNode('.toolbar .lineSelector select').setAttribute('style', 'background-color:#DDDDDD; color:' + this.currentProfile.color);
+                    Ext.DomQuery.selectNode('#ww_toolbar .lineSelector select').setAttribute('style', 'background-color:#DDDDDD; color:' + this.currentProfile.color);
                 }
             }
             this.addLinesSelectorOption(i, 'Tracé ' + (i + 1), (this.profiles[i].color || '#000000'));
@@ -413,8 +445,8 @@ function setFirstTabTitle() {
     if (this.currentProfile) {
         value = this.currentProfile.name;
     }
-    Ext.select('.x-tab-strip .x-tab-strip-text').elements[0].setAttribute('style', 'color:' + color);
-    Ext.select('.x-tab-strip .x-tab-strip-text').elements[0].textContent = value;
+    Ext.DomQuery.select('.x-tab-bar .x-tab-inner')[0].setAttribute('style', 'color:' + color);
+    Ext.DomQuery.select('.x-tab-bar .x-tab-inner')[0].textContent = value;
 }
 
 /**
@@ -425,7 +457,7 @@ function setFirstTabTitle() {
  * @param {String} color
  */
 function addLinesSelectorOption(value, text, color) {
-    var linesSelector = Ext.DomQuery.selectNode('.toolbar .lineSelector select'),
+    var linesSelector = Ext.DomQuery.selectNode('#ww_toolbar .lineSelector select'),
             node = document.createElement('option');
     node.setAttribute('value', value);
     if (typeof color === 'string') {
@@ -493,7 +525,9 @@ function generatePoints(profile, maxInterval) {
 function onPointAdded(e) {
     var point = e.feature;
     if (!this.currentProfile || !this.currentProfile.line) {
-        point.destroy();
+        //remove point
+        this.layers.points.getSource().removeFeatures([point]);
+        point = null;
         Ext.MessageBox.alert('Le tracé en premier', "Vous devez d'abord créer un nouveau tracé, utilisez le première outils pour cela.");
         return;
     }
@@ -514,14 +548,14 @@ function addPoints(points) {
     }
     this.displayWaitMessage(true);
     for (i = 0; i < points.length; i++) {
-        this.addPoint(points[i])
+        this.addPoint(points[i]);
     }
     this.cleanProfile(this.currentProfile);
     this.displayWaitMessage(false);
 }
 ;
 /**
- * Add the given point to layer and current profile. Don't call function "cleanProfile"
+ * Add the given point to current profile. Don't call function "cleanProfile"
  * If point is null, return.
  * @param {OpenLayers.Feature.Vector} point
  */
@@ -529,7 +563,6 @@ function addPoint(point) {
     if (!point) {
         return;
     }
-    this.layers.points.addFeatures(point.feature);
     this.currentProfile.addPoint(point);
 }
 /**
@@ -544,7 +577,6 @@ function cleanProfile(profile) {
     this.displayWaitMessage(true);
     profile.sortPoints();
     profile.data = null;
-    this.layers.points.redraw();
     this.displayWaitMessage(false);
 }
 
@@ -652,7 +684,7 @@ function calculateProfileDs(profile) {
         altitude = point.altitude;
         if (i !== 0) {
             slope100 = (point.altitude - profile.points[i - 1].altitude) / 100;
-            km = ((distanceBetweenTwoPoints(profile.line, profile.points[i - 1], point)) / 1000);
+            km = ((distanceByALineBetweenTwoPoints(profile.line, profile.points[i - 1], point)) / 1000);
             percent = slope100 / (10 * km) * 100;
             if (percent < -20) {
                 kme = -slope100 / 1.5 + km;
@@ -784,7 +816,7 @@ function setChart() {
  * @param {OpenLayers.Feature.Vector} point2
  * @returns {int} the distance between two point or -1
  */
-function distanceBetweenTwoPoints(line, point1, point2) {
+function distanceByALineBetweenTwoPoints(line, point1, point2) {
     var i, points = [], pointA, pointB, pointC = point1, vec1, vec2,
             d1, d2, rec = false, firstLoopFirstAdd = false, distance = 0;
     if (!line || !line.geometry || !point1 || !point1.feature || !point2 || !point2.feature) {
@@ -825,3 +857,11 @@ function distanceBetweenTwoPoints(line, point1, point2) {
     }
     return distance;
 }
+
+
+function distanceBetweenTwoPoints(pointPos1, pointPos2) {
+    return Math.sqrt(
+            Math.pow(Math.abs(pointPos1[0] - pointPos2[0]), 2) +
+            Math.pow(Math.abs(pointPos1[1] - pointPos2[1]), 2));
+}
+;

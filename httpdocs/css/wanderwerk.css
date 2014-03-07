@@ -1,328 +1,364 @@
-﻿#body{
+#body{
     font-family: "tahoma", "arial", "verdana", sans-serif;
     font-size: 11px;
     font-weight: 700;
     background-color: #363636;
+    margin:0;
 }
 
-#body .info-panel p{
-    text-align: center;
-    padding:5px;
+p{
+    margin:0;
+    padding:0;
 }
 
 #body .x-panel-body{
     border:none;
 }
 
-#body .x-panel-body .x-panel-body , #body .x-panel-header, #body .x-layout-split,
-#body .x-tab-panel-body , #body .x-tab-panel-header{
-    border:solid #222222;
-    border-width: 2px 0 2px;
+#ww_info-panel p{
+    text-align: center;
+    padding:5px;
+    letter-spacing: 2px
+}
+
+#body .x-panel-body, #body .x-panel-header,
+#body .x-tab-bar{
+    border-top:#666666 1px solid;
+    border-bottom:#222222 2px solid;
     background-image: url("../images/background.png");
     color: white;
-    border-top:solid #666666 1px;
 }
 
-#body .grid-panel .x-panel-body{
-    border-bottom-width: 0px;
-} 
+#ww_datas-panel-body.x-panel-body{
+    border-top: none;
+}
 
-#body .x-grid3-viewport, #body .x-tab-strip-top{
+#ww_map-panel .x-panel-body, #body .x-tab-panel-header>#body .x-tab-panel-body{
     border:none;
-    padding-top:0;
-    background-image: url("../images/background.png");
 }
 
-#body .toolbar table{
+#ww_toolbar-body {
+    padding: 0px 5px;
+}
+
+#ww_toolbar .lineSelector p{
+    display:inline-block;
+    margin: 5px 10px 0 0;
+}
+
+#ww_toolbar .lineSelector p:first-child{
+    margin-top: 10px;
+}
+
+
+#ww_toolbar .lineSelector>*{
     padding:5px 5px 0 0;
     float: left;
 }
 
-#body .toolbar button{
+#ww_toolbar .buttons>*{
+    margin:5px 5px 0 0;
+    float: left;
+}
+
+#ww_toolbar a{
     height: 35px;
     width: 35px;
     background-repeat: no-repeat;
-    margin-top:-2px;
 }
 
-#body .toolbar .x-btn-tl, #body .toolbar .x-btn-tr, #body .toolbar .x-btn-tc,
-#body .toolbar .x-btn-ml, #body .toolbar .x-btn-mr, #body .toolbar .x-btn-mc,
-#body .toolbar .x-btn-bl, #body .toolbar .x-btn-br, #body .toolbar .x-btn-bc{
+#ww_toolbar .x-btn-tl, #ww_toolbar .x-btn-tr, #ww_toolbar .x-btn-tc,
+#ww_toolbar .x-btn-ml, #ww_toolbar .x-btn-mr, #ww_toolbar .x-btn-mc,
+#ww_toolbar .x-btn-bl, #ww_toolbar .x-btn-br, #ww_toolbar .x-btn-bc{
     background: none;
 } 
 
-#body .toolbar button{
+#ww_toolbar a{
     border:solid #222222;
     border-width: 2px 2px 2px;
     border-top: solid #666666 1px;
     border-radius: 5px;
     background-image: url("../images/icones.png");
     background-repeat: no-repeat;
+    background-color: transparent;
 }
 
-#body .toolbar .selected button{
+#ww_toolbar a.selected{
     box-shadow: inset 0px 2px 5px 0px black;
     border-top:solid #222222 2px;
     border-bottom:solid #666666 1px;
 }
 
-#body .toolbar .addLine button{
+#ww_toolbar .addLine{
     background-position: 0 0;
 }
 
-#body .toolbar .addLine.selected button{
+#ww_toolbar .addLine.selected{
     background-position: -32px 0;
 }
 
-#body .toolbar .addLine button:hover, #body .toolbar .addLine.selected button:hover{
+#ww_toolbar .addLine:hover, #ww_toolbar .addLine.selected:hover{
     background-position: -64px 0;
 }
 
-#body .toolbar .updateLine button{
+#ww_toolbar .updateLine{
     background-position: 0 -32px;
 }
 
-#body .toolbar .updateLine.selected button{
+#ww_toolbar .updateLine.selected{
     background-position: -32px -32px;
 }
 
-#body .toolbar .updateLine button:hover, #body .toolbar .updateLine.selected button:hover{
+#ww_toolbar .updateLine:hover, #ww_toolbar .updateLine.selected:hover{
     background-position: -64px -32px;
 }
 
-#body .toolbar .addPoint button{
+#ww_toolbar .addPoint{
     background-position: 0 -64px;
 }
 
-#body .toolbar .addPoint.selected button{
+#ww_toolbar .addPoint.selected{
     background-position: -32px -64px;
 }
 
-#body .toolbar .addPoint button:hover, #body .toolbar .addPoint.selected button:hover{
+#ww_toolbar .addPoint:hover, #ww_toolbar .addPoint.selected:hover{
     background-position: -64px -64px;
 }
 
-#body .toolbar .updatePoint button{
+#ww_toolbar .updatePoint{
     background-position: 0 -96px;
 }
 
-#body .toolbar .updatePoint.selected button{
+#ww_toolbar .updatePoint.selected{
     background-position: -32px -96px;
 }
 
-#body .toolbar .updatePoint button:hover, #body .toolbar .updatePoint.selected button:hover{
+#ww_toolbar .updatePoint:hover, #ww_toolbar .updatePoint.selected:hover{
     background-position: -64px -96px;
 }
 
-#body .toolbar .calculate button{
+#ww_toolbar .calculate{
     background-position: 0px -128px;
 }
 
-#body .toolbar .calculate button:hover, #body .toolbar .calculate button:hover{
+#ww_toolbar .calculate:hover, #ww_toolbar .calculate:hover{
     background-position: -64px -128px;
 }
 
-#body .toolbar .displayChart button{
+#ww_toolbar .displayChart{
     background-position: -0px -160px;
 }
 
-#body .toolbar .displayChart button:hover, #body .toolbar .displayChart button:hover{
+#ww_toolbar .displayChart:hover, #ww_toolbar .displayChart:hover{
     background-position: -64px -160px;
 }
 
-#body .toolbar .erase button{
+#ww_toolbar .erase{
     background-position: -0px -192px;
 }
 
-#body .toolbar .erase button:hover, #body .toolbar .erase button:hover{
+#ww_toolbar .erase:hover, #ww_toolbar .erase:hover{
     background-position: -64px -192px;
 }
 
-#body .toolbar .help{
+#ww_toolbar .help{
     float:right;
 }
 
-#body .toolbar .help button{
+#ww_toolbar .help{
     background-position: -0px -224px;
 }
 
-#body .toolbar .help button:hover, #body .toolbar .help button:hover{
+#ww_toolbar .help:hover, #ww_toolbar .help:hover{
     background-position: -64px -224px;
 }
 
-#body .lineSelector{
-    margin-top: 12px;
-}
-
-#body .lineSelector p{
-    display:inline-block;
-    margin-left:10px;
-}
-
-#body #chartcontainer{
-    background-color:white;
-}
-
-#body .info-panel p{
-    text-align: center;
-    padding:5px;
-}
-
-#body .properties{
-    clear:both;
-}
-
-#body .properties div{
-    margin-top:3px;
-}
-
-#body .properties p{
-    float:left;
-}
-
-#body .properties .label{
-    padding: 5px 5px 0 0;
-}
-
-#body .properties .left{
-    float:left;
-}
-
-#body .properties .right{
-    float:right;
-}
-
-#body .x-tab-strip *, #body .x-tab-strip-active *{
-    background-image: url("../images/wanderwerk/background.png");
-    background-color: transparent;
-}
-
-#body .x-tab-strip li{
-    border:none;
-    border:solid #222222;
-    border-top-color:#666666;
-    border-width: 1px 2px 2px;
-    border-radius: 15px;
-    padding-bottom: 1px;
-    margin-right: 10px;
-}
-
-#body .x-tab-strip .x-tab-strip-active{
-    border:none;
-    border:solid #222222;
-    border-bottom-color:#666666;
-    border-width: 2px 2px 1px;
-}
-
-#body .x-tab-strip .x-tab-strip-text{
-    /*box-shadow: inset 0px 2px 5px 0px black;*/
-}
-
-#body .x-tab-strip-active .x-tab-strip-text{
-    /*box-shadow: inset 0px 2px 5px 0px black;*/
-    color: #00FF00;
-    font-weight: normal;
-}
-
-#body .x-tab-strip .x-tab-strip-text:hover{
-    color:#00FF00 !important;
-    text-shadow: 0px 0px 10px rgba(0, 255, 255, 0.6);
-    cursor:pointer
-}
-
-#body .x-layout-split{
+#body .x-splitter{
     height:3px;
     border:none;
     border:solid #222222;
     border-width: 1px 0 2px;
 }
 
-#body .map-panel *{
-    background-color:transparent;
-}
-
-#body .map-panel .x-panel-body{
+#ww_map-panel .x-panel-body{
     background-color:white;
     background-image: none;
 }
 
-#body .x-tab-panel-body .x-panel-body{
-    border-top-width: 0;
+#ww_properties-panel .properties{
+    clear:both;
+    margin: 0 5px;
 }
 
-#body .x-grid3-header{
+#ww_properties-panel .properties div{
+    margin-top:3px;
+}
+
+#ww_properties-panel .properties p{
+    float:left;
+}
+
+#ww_properties-panel .properties .label{
+    padding: 5px 5px 0 0;
+}
+
+#ww_properties-panel .properties .left{
+    float:left;
+}
+
+#ww_properties-panel .properties .right{
+    float:right;
+}
+
+#ww_datas-panel .x-tab-bar{
+    height:24px;
+    border:none;
+}
+
+#ww_datas-panel .x-tab-bar-body{
+    border:solid #222222;
+    border-width: 0 0 2px;
+}
+
+#ww_datas-panel .x-tab{
+    border:none;
+    border:solid #222222;
+    border-top-color:#666666;
+    border-width: 1px 2px 2px;
+    padding-bottom: 1px;
+    margin-right: 10px;
+    background-image: url("../images/background.png");
+    box-shadow: #AAAAAA 0 1px 0 0 inset,#AAAAAA -1px 0 0 0 inset,#AAAAAA 1px 0 0 0 inset;
+}
+
+#ww_datas-panel .x-tab-bar-strip, #ww_datas-panel .x-tab{
+    border:solid #222222;
+    border-top-color:#666666;
+    border-width: 1px 0;
+    background-color: #363636;
+}
+
+#ww_datas-panel .x-tab-active{
+    border:none;
+    border:solid #222222;
+    border-bottom-color:#666666;
+    border-width: 2px 2px 1px;
+    box-shadow: inset 0px 2px 5px 0px black;
+}
+
+#ww_datas-panel .x-tab.x-tab-active .x-tab-inner{
+    color: #00FF00;
+    font-weight: normal;
+}
+
+#ww_datas-panel .x-tab .x-tab-inner{
+    color:white;
+}
+
+#ww_datas-panel .x-tab .x-tab-inner:hover{
+    color:#00FF00 !important;
+    text-shadow: 0px 0px 10px rgba(0, 255, 255, 0.6);
+    cursor:pointer
+}
+
+#ww_datas-panel .x-grid-header-ct{
     background-image: url("../images/background.png");
     border:solid #222222;
     border-width: 0 0 2px 0; 
 }
 
-#body .x-grid3-hd-row td{
+#ww_datas-panel .x-column-header{
+    color:white;
     font-weight: bold;
 }
 
-#body .x-grid3-hd-row td, #body .x-grid3-hd-row td div:hover{
+#ww_datas-panel .x-column-header, #ww_datas-panel .x-column-header div:hover{
     background-image: url("../images/background.png");
     border:solid #222222;
     border-width: 0 2px 0 0;
     padding-right: 2px;
 }
 
-#body .x-grid3-hd-row td div:hover{
+#ww_datas-panel .x-grid-table{
+    border-top: none;
+}
+
+#ww_datas-panel .x-grid-view{
+    background-image: url("../images/dark_background.png");
+}
+
+#body .x-panel-body.x-menu-body{
+    background-image: none;
+}
+
+#ww_datas-panel .x-grid-empty{
+    background-color: transparent;
+}
+
+
+/*
+
+#ww_datas-panel .x-grid3-hd-row td div:hover{
     color: #00FF00;
     text-shadow: 0px 0px 10px rgba(0, 255, 255, 0.6);
 }
 
-#body .x-grid3-hd-row{
+#ww_datas-panel .x-grid3-hd-row{
     border:none;
     border:solid #222222;
     border-width: 0 0 2px 0; 
-    background-color:transparent !important; /*hack to counter hack of ExtJS*/
+    background-color:transparent !important; hack to counter hack of ExtJS
 }
 
-#body .x-grid3-row:hover{
+#ww_datas-panel .x-grid3-row:hover{
     border:none;
     color: #00FF00;
     text-shadow: 0px 0px 10px rgba(0, 255, 255, 0.6);
-    background-color:transparent !important; /*hack to counter hack of ExtJS*/
+    background-color:transparent !important; hack to counter hack of ExtJS
 }
 
-#body .x-grid3-row-selected{
+#ww_datas-panel .x-grid3-row-selected{
     border:none;
-    background-color:transparent !important; /*hack to counter hack of ExtJS*/
+    background-color:transparent !important; hack to counter hack of ExtJS
 }
 
-#body .x-grid3-hd-row td div{
+#ww_datas-panel .x-grid3-hd-row td div{
     background-image: url("../images/background.png");
 }
 
-#body .x-grid3-header-inner {
+#ww_datas-panel .x-grid3-header-inner {
     padding:0;
 }
 
-#body .x-grid3-row{
+#ww_datas-panel .x-grid3-row{
     border:none;
 }
 
-#body .x-grid3-row-table td{
+#ww_datas-panel .x-grid3-row-table td{
     border:solid #222222;
     border-width: 0 2px 2px 0;
     border-top:solid #666666;
     border-top-width: 1px;
-}
+}*/
+/*!!!*/
 
-#body .footer{
+#ww_footer-panel{
     text-align: center;
     font-weight: normal;
-    color:gray;
-    padding:2px;
 }
 
-#body .footer a, #body .footer a:visited{
+#ww_footer-panel p{
+    padding-top: 5px;
+    color:gray;
+    font-size: 0.9em;
+}
+
+#ww_footer-panel a, #ww_footer-panel a:visited{
     color: #00AA00;
     text-decoration: none;
 }
 
-#body .footer a:hover{
+#ww_footer-panel a:hover{
     color: #00FF00;
     text-shadow: 0px 0px 10px rgba(0, 255, 255, 0.6);
 }
